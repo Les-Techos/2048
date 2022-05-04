@@ -1,6 +1,7 @@
 package vue_controleur;
 
 import modele.Case;
+import modele.Coord;
 import modele.Jeu;
 
 import javax.swing.*;
@@ -61,7 +62,7 @@ public class Swing2048 extends JFrame implements Observer {
             public void run() {
                 for (int i = 0; i < jeu.getSize(); i++) {
                     for (int j = 0; j < jeu.getSize(); j++) {
-                        Case c = jeu.getCase(i, j);
+                        Case c = jeu.getCase(new Coord(i,j));
 
                         if (c == null) {
 

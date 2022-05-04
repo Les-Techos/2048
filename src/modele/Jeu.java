@@ -10,7 +10,7 @@ public class Jeu extends Observable {
     int size;
 
     private HashMap<Case, Coord> mp_case_coord = new HashMap<Case, Coord>();
-    private Map<Coord, Case> mp_coord_case = new HashMap<Coord, Case>();
+    private HashMap<Coord, Case> mp_coord_case = new HashMap<Coord, Case>();
 
     private static Random rnd = new Random(4);
 
@@ -23,8 +23,8 @@ public class Jeu extends Observable {
         return size;
     }
 
-    public Case getCase(int i, int j) {
-        return mp_coord_case.get(new Coord(i, j));
+    public Case getCase(Coord c) {
+        return mp_coord_case.get(c);
     }
 
     public void rnd() {
@@ -38,7 +38,7 @@ public class Jeu extends Observable {
 
                         switch (r) {
                             case 0:
-                                // tabCases[i][j] = null;
+                                mp_coord_case.put(new Coord(i, j), null);
                                 break;
                             case 1:
                                 mp_coord_case.put(new Coord(i, j), new Case(2));
