@@ -5,6 +5,9 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Random;
 
+import modele.Coord.Coord;
+import modele.Coord.Coord2D;
+
 public class Jeu extends Observable {
 
     int size;
@@ -38,13 +41,13 @@ public class Jeu extends Observable {
 
                         switch (r) {
                             case 0:
-                                mp_coord_case.put(new Coord(i, j), null);
+                                mp_coord_case.put(new Coord2D(i, j), null);
                                 break;
                             case 1:
-                                mp_coord_case.put(new Coord(i, j), new Case(2));
+                                mp_coord_case.put(new Coord2D(i, j), new Case(2));
                                 break;
                             case 2:
-                                mp_coord_case.put(new Coord(i, j), new Case(4));
+                                mp_coord_case.put(new Coord2D(i, j), new Case(4));
                                 break;
                         }
                     }
