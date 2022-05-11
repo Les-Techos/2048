@@ -1,7 +1,7 @@
 package vue_controleur;
 
-import modele.Case;
 import modele.Jeu;
+import modele.Case.Case2D;
 import modele.Coord.Coord2D;
 
 import java.io.IOException;
@@ -86,7 +86,13 @@ public class Console2048 extends Thread implements Observer {
 
         for (int i = 0; i < jeu.getSize(); i++) {
             for (int j = 0; j < jeu.getSize(); j++) {
-                Case c = jeu.getCase(new Coord2D(i, j));
+                Case2D c = null;
+                try {
+                    c = jeu.getCase(new Coord2D(i, j));
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
                 if (c != null) {
                     System.out.format("%5.5s", c.getValeur());
                 } else {

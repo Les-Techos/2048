@@ -1,7 +1,7 @@
 package vue_controleur;
 
-import modele.Case;
 import modele.Jeu;
+import modele.Case.Case2D;
 import modele.Coord.Coord;
 import modele.Coord.Coord2D;
 
@@ -22,13 +22,11 @@ public class Swing2048 extends JFrame implements Observer {
     private JLabel[][] tabC;
     private Jeu jeu;
 
-
     public Swing2048(Jeu _jeu) {
         jeu = _jeu;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(jeu.getSize() * PIXEL_PER_SQUARE, jeu.getSize() * PIXEL_PER_SQUARE);
         tabC = new JLabel[jeu.getSize()][jeu.getSize()];
-
 
         JPanel contentPane = new JPanel(new GridLayout(jeu.getSize(), jeu.getSize()));
 
@@ -38,7 +36,6 @@ public class Swing2048 extends JFrame implements Observer {
                 tabC[i][j] = new JLabel();
                 tabC[i][j].setBorder(border);
                 tabC[i][j].setHorizontalAlignment(SwingConstants.CENTER);
-
 
                 contentPane.add(tabC[i][j]);
 
@@ -50,20 +47,23 @@ public class Swing2048 extends JFrame implements Observer {
 
     }
 
-
-
-
     /**
      * Correspond à la fonctionnalité de Vue : affiche les données du modèle
      */
-    private void rafraichir()  {
+    private void rafraichir() {
 
         SwingUtilities.invokeLater(new Runnable() { // demande au processus graphique de réaliser le traitement
             @Override
             public void run() {
                 for (int i = 0; i < jeu.getSize(); i++) {
                     for (int j = 0; j < jeu.getSize(); j++) {
-                        Case c = jeu.getCase(new Coord2D(i,j));
+                        Case2D c = null;
+                        try {
+                            c = jeu.getCase(new Coord2D(i, j));
+                        } catch (Exception e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
 
                         if (c == null) {
 
@@ -73,32 +73,39 @@ public class Swing2048 extends JFrame implements Observer {
                             tabC[i][j].setText(c.getValeur() + "");
                         }
 
-
                     }
                 }
             }
         });
 
-
     }
 
     /**
-     * Correspond à la fonctionnalité de Contrôleur : écoute les évènements, et déclenche des traitements sur le modèle
+     * Correspond à la fonctionnalité de Contrôleur : écoute les évènements, et
+     * déclenche des traitements sur le modèle
      */
     private void ajouterEcouteurClavier() {
-        addKeyListener(new KeyAdapter() { // new KeyAdapter() { ... } est une instance de classe anonyme, il s'agit d'un objet qui correspond au controleur dans MVC
+        addKeyListener(new KeyAdapter() { // new KeyAdapter() { ... } est une instance de classe anonyme, il s'agit d'un
+                                          // objet qui correspond au controleur dans MVC
             @Override
             public void keyPressed(KeyEvent e) {
-                switch(e.getKeyCode()) {  // on regarde quelle touche a été pressée
-                    case KeyEvent.VK_LEFT : jeu.rnd(); break;
-                    case KeyEvent.VK_RIGHT : jeu.rnd(); break;
-                    case KeyEvent.VK_DOWN : jeu.rnd(); break;
-                    case KeyEvent.VK_UP : jeu.rnd(); break;
+                switch (e.getKeyCode()) { // on regarde quelle touche a été pressée
+                    case KeyEvent.VK_LEFT:
+                        jeu.rnd();
+                        break;
+                    case KeyEvent.VK_RIGHT:
+                        jeu.rnd();
+                        break;
+                    case KeyEvent.VK_DOWN:
+                        jeu.rnd();
+                        break;
+                    case KeyEvent.VK_UP:
+                        jeu.rnd();
+                        break;
                 }
             }
         });
     }
-
 
     @Override
     public void update(Observable o, Object arg) {

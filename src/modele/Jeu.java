@@ -5,20 +5,22 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Random;
 
+import modele.Case.Case2D;
 import modele.Coord.Coord;
 import modele.Coord.Coord2D;
+import modele.Grille.Grille2D;
 
 public class Jeu extends Observable {
 
     int size;
 
-    private HashMap<Case, Coord> mp_case_coord = new HashMap<Case, Coord>();
-    private HashMap<Coord, Case> mp_coord_case = new HashMap<Coord, Case>();
+    private Grille2D g = new Grille2D();
 
     private static Random rnd = new Random(4);
 
     public Jeu(int size) {
         this.size = size;
+        Coord2D.setJ(this);
         rnd();
     }
 
@@ -26,8 +28,8 @@ public class Jeu extends Observable {
         return size;
     }
 
-    public Case getCase(Coord c) {
-        return mp_coord_case.get(c);
+    public Case2D getCase(Coord c) {
+        return g.getCase(c);
     }
 
     public void rnd() {
@@ -39,15 +41,23 @@ public class Jeu extends Observable {
                     for (int j = 0; j < size; j++) {
                         r = rnd.nextInt(3);
 
+                        Coord2D c = null;
+                        try {
+                            c = new Coord2D(i, j);
+                        } catch (Exception e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                        
                         switch (r) {
                             case 0:
-                                mp_coord_case.put(new Coord2D(i, j), null);
+                                g.setCase(c, null);
                                 break;
                             case 1:
-                                mp_coord_case.put(new Coord2D(i, j), new Case(2));
+                                g.setCase(c, new Case2D(2, c));
                                 break;
                             case 2:
-                                mp_coord_case.put(new Coord2D(i, j), new Case(4));
+                                g.setCase(c, new Case2D(4, c));
                                 break;
                         }
                     }
@@ -62,10 +72,6 @@ public class Jeu extends Observable {
     }
 
     public void move(Direction d) {
-        switch (d) {
-            case gauche:
-
-                break;
-        }
+        //TODO Implement move op
     }
 }

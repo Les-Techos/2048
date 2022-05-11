@@ -7,7 +7,13 @@ public class Main_test {
         Jeu j = new Jeu(10);
         Coord2D.setJ(j);
 
-        Coord2D c2d = new Coord2D(8,3);
+        Coord2D c2d = null;
+        try {
+            c2d = new Coord2D(8,3);
+        } catch (Exception e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
         try{
             System.out.println(c2d.getVoisin(Direction.bas));     
         }catch(Exception e){

@@ -7,9 +7,10 @@ public class Coord2D implements Coord {
     private int x, y;
     private static Jeu j;
 
-    public Coord2D(int x, int y) {
+    public Coord2D(int x, int y) throws Exception{
         this.x = x;
         this.y = y;
+        if(!isCoordCorrect()) throw new Exception("Coord out of the grid");
     }
 
     @Override
@@ -25,12 +26,14 @@ public class Coord2D implements Coord {
         return x * y;
     }
 
-    @Override
-    public Coord getVoisin(Direction dir) throws Exception {
-
+    protected boolean isCoordCorrect() throws Exception {
         if (j == null)
             throw new Exception("J pointer is null");
+        return x >= 0 && x < j.getSize() && y >= 0 && y < j.getSize();
+    }
 
+    @Override
+    public Coord getVoisin(Direction dir) throws Exception {
         Coord2D c = null;
         switch (dir) {
             case droite:
@@ -47,7 +50,7 @@ public class Coord2D implements Coord {
                 break;
         }
 
-        if(c.x >= 0 && c.x < j.getSize() && c.y >= 0 && c.y < j.getSize()) return c;
+        if(c.isCoordCorrect()) return c;
         else return null;
         
     }
