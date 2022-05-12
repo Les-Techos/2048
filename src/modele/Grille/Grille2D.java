@@ -95,7 +95,7 @@ public class Grille2D implements Grille {
         Coord2D c = null;
         do{
             c = Coord2D.rand();
-        }while(getCase(c) != null);
-        setCase(c, new Case2D((r.nextInt()%2+1)*2, c));
+        }while(getCase(c) != null); // TODO Check if the grid is not already full
+        setCase(c, new Case2D((r.nextInt()%2+1)*2, c)); // TODO Patch 0 value case insertion
     }
 }

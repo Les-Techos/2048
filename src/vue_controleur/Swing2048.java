@@ -3,7 +3,6 @@ package vue_controleur;
 import modele.Direction;
 import modele.Jeu;
 import modele.Case.Case2D;
-import modele.Coord.Coord;
 import modele.Coord.Coord2D;
 
 import javax.swing.*;
@@ -11,9 +10,6 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -62,7 +58,6 @@ public class Swing2048 extends JFrame implements Observer {
                         try {
                             c = jeu.getCase(Coord2D.getInstance(i, j));
                         } catch (Exception e) {
-                            // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
 

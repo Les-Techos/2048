@@ -44,7 +44,6 @@ public class Jeu extends Observable {
                         try {
                             c = Coord2D.getInstance(i, j);
                         } catch (Exception e) {
-                            // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
                         

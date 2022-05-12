@@ -90,7 +90,6 @@ public class Console2048 extends Thread implements Observer {
                 try {
                     c = jeu.getCase(Coord2D.getInstance(i, j));
                 } catch (Exception e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
                 if (c != null) {

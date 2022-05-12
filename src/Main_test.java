@@ -1,5 +1,4 @@
 import modele.Coord.Coord2D;
-import modele.Direction;
 import modele.Jeu;
 
 public class Main_test {

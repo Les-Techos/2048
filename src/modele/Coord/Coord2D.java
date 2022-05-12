@@ -3,7 +3,6 @@ package modele.Coord;
 import java.util.Random;
 
 import modele.Direction;
-import modele.Jeu;
 import modele.Grille.Grille2D;
 
 public class Coord2D implements Coord {
@@ -18,27 +17,24 @@ public class Coord2D implements Coord {
 
     public static Coord2D getInstance(int x, int y) throws IllegalArgumentException{
         Coord2D res = new Coord2D(x, y);
-        
+        boolean test = true;
         try {
-            if(!res.isCoordCorrect())
-                throw new IllegalArgumentException(" Coordonnées incorrectes ! ");
+            test = res.isCoordCorrect();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        if(!test) throw new IllegalArgumentException(" Coordonnées incorrectes ! ");
         return res;
     }
 
     @Override
     public boolean equals(Object obj) {
         Coord2D c = (Coord2D) obj;
-        // TODO Auto-generated method stub
         return c.x == x && c.y == y;
     }
 
     @Override
     public int hashCode() {
-        // TODO Auto-generated method stub
         return x * y;
     }
 
@@ -69,7 +65,6 @@ public class Coord2D implements Coord {
         try {
             if(c.isCoordCorrect()) return c;
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;
