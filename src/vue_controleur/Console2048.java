@@ -88,7 +88,7 @@ public class Console2048 extends Thread implements Observer {
             for (int j = 0; j < jeu.getSize(); j++) {
                 Case2D c = null;
                 try {
-                    c = jeu.getCase(new Coord2D(i, j));
+                    c = jeu.getCase(Coord2D.getInstance(i, j));
                 } catch (Exception e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

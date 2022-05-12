@@ -12,5 +12,13 @@ public interface Grille {
 
     public void setCase(Coord c, Case cs);
 
+    public void insertRandomCase();
+
+    public void rmCase(Coord c);
+
+    public Case getCase(Coord c);
+
     public void move(Direction dir);
+
+    public int getSize();
 }

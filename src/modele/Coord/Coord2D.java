@@ -1,16 +1,32 @@
 package modele.Coord;
 
+import java.util.Random;
+
 import modele.Direction;
 import modele.Jeu;
+import modele.Grille.Grille2D;
 
 public class Coord2D implements Coord {
     private int x, y;
-    private static Jeu j;
+    private static Grille2D g;
+    private static Random r = new Random();
 
-    public Coord2D(int x, int y) throws Exception{
+    private Coord2D(int x, int y){
         this.x = x;
         this.y = y;
-        if(!isCoordCorrect()) throw new Exception("Coord out of the grid");
+    }
+
+    public static Coord2D getInstance(int x, int y) throws IllegalArgumentException{
+        Coord2D res = new Coord2D(x, y);
+        
+        try {
+            if(!res.isCoordCorrect())
+                throw new IllegalArgumentException(" Coordonnées incorrectes ! ");
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return res;
     }
 
     @Override
@@ -27,13 +43,13 @@ public class Coord2D implements Coord {
     }
 
     protected boolean isCoordCorrect() throws Exception {
-        if (j == null)
-            throw new Exception("J pointer is null");
-        return x >= 0 && x < j.getSize() && y >= 0 && y < j.getSize();
+        if (g == null)
+            throw new Exception("G pointer is null");
+        return x >= 0 && x < g.getSize() && y >= 0 && y < g.getSize();
     }
 
     @Override
-    public Coord getVoisin(Direction dir) throws Exception {
+    public Coord getVoisin(Direction dir){
         Coord2D c = null;
         switch (dir) {
             case droite:
@@ -50,21 +66,32 @@ public class Coord2D implements Coord {
                 break;
         }
 
-        if(c.isCoordCorrect()) return c;
-        else return null;
-        
-    }
-
-    public static Jeu getJ() {
-        return j;
-    }
-
-    public static void setJ(Jeu j) {
-        Coord2D.j = j;
+        try {
+            if(c.isCoordCorrect()) return c;
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
     public String toString() {
         return "Coord2D [x=" + x + ", y=" + y + "]";
+    }
+
+    public static Grille2D getG() {
+        return g;
+    }
+
+    public static void setG(Grille2D g) {
+        Coord2D.g = g;
+    }
+
+
+    public static Coord2D rand() {
+        int row = r.nextInt()%g.getSize(), col = r.nextInt()%g.getSize();
+        if(row <  0) row = -row; if(col < 0) col = -col;
+        return new Coord2D(row, col);
     }
 }

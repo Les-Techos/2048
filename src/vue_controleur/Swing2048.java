@@ -1,5 +1,6 @@
 package vue_controleur;
 
+import modele.Direction;
 import modele.Jeu;
 import modele.Case.Case2D;
 import modele.Coord.Coord;
@@ -59,7 +60,7 @@ public class Swing2048 extends JFrame implements Observer {
                     for (int j = 0; j < jeu.getSize(); j++) {
                         Case2D c = null;
                         try {
-                            c = jeu.getCase(new Coord2D(i, j));
+                            c = jeu.getCase(Coord2D.getInstance(i, j));
                         } catch (Exception e) {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
@@ -91,16 +92,16 @@ public class Swing2048 extends JFrame implements Observer {
             public void keyPressed(KeyEvent e) {
                 switch (e.getKeyCode()) { // on regarde quelle touche a été pressée
                     case KeyEvent.VK_LEFT:
-                        jeu.rnd();
+                        jeu.move(Direction.gauche);
                         break;
                     case KeyEvent.VK_RIGHT:
-                        jeu.rnd();
+                        jeu.move(Direction.droite);
                         break;
                     case KeyEvent.VK_DOWN:
-                        jeu.rnd();
+                        jeu.move(Direction.bas);
                         break;
                     case KeyEvent.VK_UP:
-                        jeu.rnd();
+                        jeu.move(Direction.haut);
                         break;
                 }
             }

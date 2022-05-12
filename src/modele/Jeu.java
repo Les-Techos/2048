@@ -1,7 +1,5 @@
 package modele;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Observable;
 import java.util.Random;
 
@@ -14,13 +12,14 @@ public class Jeu extends Observable {
 
     int size;
 
-    private Grille2D g = new Grille2D();
+    private Grille2D g;
 
     private static Random rnd = new Random(4);
 
     public Jeu(int size) {
-        this.size = size;
-        Coord2D.setJ(this);
+        g = new Grille2D(size);
+        this.size = g.getSize();
+        Coord2D.setG(g);
         rnd();
     }
 
@@ -43,7 +42,7 @@ public class Jeu extends Observable {
 
                         Coord2D c = null;
                         try {
-                            c = new Coord2D(i, j);
+                            c = Coord2D.getInstance(i, j);
                         } catch (Exception e) {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
@@ -72,6 +71,9 @@ public class Jeu extends Observable {
     }
 
     public void move(Direction d) {
-        //TODO Implement move op
+        g.move(d);
+
+        setChanged();
+        notifyObservers();
     }
 }

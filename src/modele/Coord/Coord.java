@@ -9,5 +9,5 @@ public interface Coord {
     @Override
     public int hashCode();
 
-    public Coord getVoisin(Direction dir) throws Exception;
+    public Coord getVoisin(Direction dir);
 }
