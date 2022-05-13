@@ -83,7 +83,6 @@ public class Coord2D implements Coord {
         Coord2D.g = g;
     }
 
-
     public static Coord2D rand() {
         int row = r.nextInt()%g.getSize(), col = r.nextInt()%g.getSize();
         if(row <  0) row = -row; if(col < 0) col = -col;

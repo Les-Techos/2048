@@ -1,5 +1,6 @@
 package vue_controleur;
 
+import modele.Direction;
 import modele.Jeu;
 import modele.Case.Case2D;
 import modele.Coord.Coord2D;
@@ -12,11 +13,8 @@ public class Console2048 extends Thread implements Observer {
 
     private Jeu jeu;
 
-
-
     public Console2048(Jeu _jeu) {
         jeu = _jeu;
-
     }
 
 
@@ -49,7 +47,6 @@ public class Console2048 extends Thread implements Observer {
 
         new Thread() {
             public void run() {
-
                 synchronized (_this) {
                     boolean end = false;
 
@@ -60,14 +57,15 @@ public class Console2048 extends Thread implements Observer {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-
+                        
                         if (s.equals("4") || s.equals("8") || s.equals("6") || s.equals("2") ) {
                             end = true;
-                            jeu.rnd();
+                            if(s.equals("4")) jeu.move(Direction.gauche);
+                            else if(s.equals("8")) jeu.move(Direction.haut);
+                            else if(s.equals("6")) jeu.move(Direction.droite);
+                            else if(s.equals("2")) jeu.move(Direction.bas);
                         }
                     }
-
-
                 }
 
             }

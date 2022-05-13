@@ -55,5 +55,4 @@ public class Case2D implements Case {
             }
         }
     }
-
 }
