@@ -1,7 +1,9 @@
 package modele.Grille;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
+import java.util.Map.Entry;
 
 import modele.Direction;
 import modele.Case.Case;
@@ -9,7 +11,7 @@ import modele.Case.Case2D;
 import modele.Coord.Coord;
 import modele.Coord.Coord2D;
 
-public class Grille2D implements Grille {
+public class Grille2D implements Grille, Cloneable {
     protected HashMap<Coord2D, Case2D> mp_coord_case = new HashMap<Coord2D, Case2D>();
     int size;
     public static Random r = new Random();
@@ -58,20 +60,22 @@ public class Grille2D implements Grille {
                 }
 
                 Case2D case_selected = getCase(target_coord);
-                if(case_selected != null) 
+                if (case_selected != null)
                     case_selected.move(dir);
             }
         }
-        insertRandomCase();
+        if (!isfull()) {
+            insertRandomCase();
+        }
     }
 
     @Override
     public void setCase(Coord c, Case cs) {
-        if (cs == null){
+        if (cs == null) {
             rmCase(c);
             return;
         }
-            
+
         mp_coord_case.put((Coord2D) c, (Case2D) cs);
     }
 
@@ -93,10 +97,94 @@ public class Grille2D implements Grille {
     @Override
     public void insertRandomCase() {
         Coord2D c = null;
-        do{
+        do {
             c = Coord2D.rand();
-        }while(getCase(c) != null); // TODO Check if the grid is not already full
-        Case2D cs = new Case2D( (Math.abs(r.nextInt())%2+1)*2, c);
+        } while (getCase(c) != null); // TODO Check if the grid is not already full
+        Case2D cs = new Case2D((Math.abs(r.nextInt()) % 2 + 1) * 2, c);
         setCase(c, cs);
     }
+
+    @Override
+    public boolean isfull() {
+        // TODO Auto-generated method stub
+        for (int row = 0; row < size; row++) {
+            for (int col = 0; col < size; col++) {
+
+                if (getCase(Coord2D.getInstance(row, col)) == null) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean iswinning() {
+        // TODO Auto-generated method stub
+        for (int row = 0; row < size; row++) {
+            for (int col = 0; col < size; col++) {
+                Case2D c = getCase(Coord2D.getInstance(row, col));
+                if (c != null) {
+                    if (c.getValeur() >= 2048) {
+                        System.out.println("Bien joué vous avez gagner");
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean iswrecked() {
+        // TODO Auto-generated method stub
+        if (isfull()) {
+            try {
+                Grille2D clone = (Grille2D) this.clone();
+                for (Direction dir : Direction.values()) {
+                    this.move(dir);
+                    if (this.equals(clone)) {
+                        return true;
+                    }
+                }
+            } catch (CloneNotSupportedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+        }
+        return false;
+    }
+
+    @Override
+    public Grille2D clone() throws CloneNotSupportedException{
+        Grille2D clone = new Grille2D(size);
+        for(Entry<Coord2D, Case2D> set : mp_coord_case.entrySet()){ 
+            clone.setCase(set.getKey().clone(), set.getValue().clone());
+        }
+        return clone;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        // TODO Auto-generated method stub
+        boolean res = true;
+        if (obj.getClass() == this.getClass()) {
+            for (int row = 0; row < size; row++) {
+                for (int col = 0; col < size; col++) {
+                    Case2D ccompare = getCase(Coord2D.getInstance(row, col));
+                    Case2D cobj = ((Grille2D) obj).getCase(Coord2D.getInstance(row, col));
+                    if (ccompare != null && cobj != null) {
+                        if (ccompare.getValeur() != cobj.getValeur()) {
+                            res = false;
+                        }
+                    }
+                }
+            }
+        } else {
+            res = false;
+        }
+        return res;
+    }
+
 }

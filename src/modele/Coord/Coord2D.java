@@ -5,7 +5,7 @@ import java.util.Random;
 import modele.Direction;
 import modele.Grille.Grille2D;
 
-public class Coord2D implements Coord {
+public class Coord2D implements Coord,Cloneable {
     private int x, y;
     private static Grille2D g;
     private static Random r = new Random();
@@ -15,6 +15,10 @@ public class Coord2D implements Coord {
         this.y = y;
     }
 
+    @Override
+    public Coord2D clone(){
+        return new Coord2D(this.x, this.y);
+    }
     public static Coord2D getInstance(int x, int y) throws IllegalArgumentException{
         Coord2D res = new Coord2D(x, y);
         boolean test = true;

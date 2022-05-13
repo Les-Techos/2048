@@ -46,7 +46,7 @@ public class Jeu extends Observable {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        
+
                         switch (r) {
                             case 0:
                                 g.setCase(c, null);
@@ -70,8 +70,14 @@ public class Jeu extends Observable {
     }
 
     public void move(Direction d) {
-        g.move(d);
-
+        // TODO Auto-generated method appeler wrecked
+        if(g.iswrecked()){
+            System.out.println("C mort");
+        }else if(g.iswinning()){
+            System.out.println("C win");
+        }else{
+            g.move(d);
+        }
         setChanged();
         notifyObservers();
     }

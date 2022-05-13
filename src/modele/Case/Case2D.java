@@ -4,13 +4,18 @@ import modele.Direction;
 import modele.Coord.Coord2D;
 import modele.Grille.Grille2D;
 
-public class Case2D implements Case {
+public class Case2D implements Case,Cloneable{
     protected int valeur;
     protected Coord2D coord;
 
     public Case2D(int _valeur, Coord2D _coord) {
         valeur = _valeur;
         this.coord = _coord;
+    }
+
+    @Override
+    public Case2D clone(){
+        return new Case2D(valeur,(Coord2D) coord.clone());
     }
 
     public int getValeur() {
@@ -53,6 +58,10 @@ public class Case2D implements Case {
                 g.setCase(coord, this); // On ajoute la nouvelle entrée
                 this.move(d);
             }
-        }
+        }  
+        
+       
     }
+
+
 }
