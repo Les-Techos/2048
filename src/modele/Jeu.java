@@ -11,9 +11,7 @@ import modele.Grille.Grille2D;
 public class Jeu extends Observable {
 
     int size;
-
     private Grille2D g;
-
     private static Random rnd = new Random(4);
 
     public Jeu(int size) {
@@ -46,7 +44,7 @@ public class Jeu extends Observable {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        
+
                         switch (r) {
                             case 0:
                                 g.setCase(c, null);
@@ -60,19 +58,20 @@ public class Jeu extends Observable {
                         }
                     }
                 }
+                setChanged();
+                notifyObservers();
             }
-
         }.start();
-
-        setChanged();
-        notifyObservers();
-
     }
 
     public void move(Direction d) {
-        g.move(d);
+        new Thread() { // permet de libérer le processus graphique ou de la console
+            public void run() {
+                g.move(d);
 
-        setChanged();
-        notifyObservers();
+                setChanged();
+                notifyObservers();
+            }
+        }.start();
     }
 }

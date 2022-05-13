@@ -17,7 +17,6 @@ public class Console2048 extends Thread implements Observer {
         jeu = _jeu;
     }
 
-
     @Override
     public void run() {
         while(true) {

@@ -5,8 +5,8 @@ import vue_controleur.Swing2048;
 public class Main {
 
     public static void main(String[] args) {
-        mainConsole();
-        //mainSwing();
+        //mainConsole();
+        mainSwing();
     }
 
     public static void mainConsole() {
@@ -15,7 +15,6 @@ public class Main {
         jeu.addObserver(vue);
 
         vue.start();
-
     }
 
     public static void mainSwing() {
@@ -25,7 +24,5 @@ public class Main {
         jeu.addObserver(vue);
 
         vue.setVisible(true);
-
-
     }
 }
