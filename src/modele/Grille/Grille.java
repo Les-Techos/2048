@@ -4,9 +4,6 @@ import modele.Case.Case;
 import modele.Coord.*;
 
 public interface Grille {
-
-    public int getSize();
-
     // TODO Check if the grid is full
     public boolean isfull();
 

@@ -17,10 +17,9 @@ public class Jeu extends Observable {
     private static Random rnd = new Random(4);
 
     public Jeu(int size) {
-        g = new Grille2D(size);
-        this.size = g.getSize();
-        Coord2D.setG(g);
-        rnd();
+        Grille2D.setSize(size);
+        g = new Grille2D();
+        this.size = size;
     }
 
     public int getSize() {
@@ -52,10 +51,10 @@ public class Jeu extends Observable {
                                 g.setCase(c, null);
                                 break;
                             case 1:
-                                g.setCase(c, new Case2D(2, c));
+                                g.setCase(c, new Case2D(2, c, g));
                                 break;
                             case 2:
-                                g.setCase(c, new Case2D(4, c));
+                                g.setCase(c, new Case2D(4, c, g));
                                 break;
                         }
                     }

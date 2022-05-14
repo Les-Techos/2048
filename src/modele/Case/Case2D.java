@@ -7,15 +7,17 @@ import modele.Grille.Grille2D;
 public class Case2D implements Case,Cloneable{
     protected int valeur;
     protected Coord2D coord;
+    private Grille2D g;
 
-    public Case2D(int _valeur, Coord2D _coord) {
+    public Case2D(int _valeur, Coord2D _coord, Grille2D g) {
         valeur = _valeur;
+        this.g = g;
         this.coord = _coord;
     }
 
     @Override
     public Case2D clone(){
-        return new Case2D(valeur,(Coord2D) coord.clone());
+        return new Case2D(valeur,(Coord2D) coord.clone(), g);
     }
 
     public int getValeur() {
@@ -37,7 +39,6 @@ public class Case2D implements Case,Cloneable{
 
     @Override
     public void move(Direction d) {
-        Grille2D g = Coord2D.getG(); // La grille
         Case2D neighbor = g.getVoisin(this, d); // Le voisin s'il existe
 
         if (neighbor != null) { // S'il existe un voisin
@@ -66,5 +67,13 @@ public class Case2D implements Case,Cloneable{
     @Override
     public String toString() {
         return "Case2D [ value : " + valeur + "," + coord.toString() + "]";
+    }
+
+    public Grille2D getG() {
+        return g;
+    }
+
+    public void setG(Grille2D g) {
+        this.g = g;
     }
 }

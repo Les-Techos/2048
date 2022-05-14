@@ -15,11 +15,35 @@ import modele.Coord.Coord2D;
 
 public class Grille2D implements Grille, Cloneable {
     protected HashMap<Coord2D, Case2D> mp_coord_case = new HashMap<Coord2D, Case2D>();
-    int size;
     public static Random r = new Random();
 
-    public Grille2D(int _size) {
-        size = _size;
+    static int size = -1;
+
+    public Grille2D() {
+        checkSize();
+    }
+
+    public static boolean isCoordCorrect(int x, int y) throws Exception {
+        checkSize();
+        return x >= 0 && x < size && y >= 0 && y < size;
+    }
+
+    public static void checkSize(){
+        if(size == -1){
+            try{
+                throw new Exception(" Static attributes Size has not been initialized : " + size);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void setSize(int size){
+        Grille2D.size = size;
+    }
+
+    public static int getSize(){
+        return size;
     }
 
     @Override
@@ -92,17 +116,12 @@ public class Grille2D implements Grille, Cloneable {
     }
 
     @Override
-    public int getSize() {
-        return size;
-    }
-
-    @Override
     public void insertRandomCase() {
         Coord2D c = null;
         do {
             c = Coord2D.rand();
         } while (getCase(c) != null); // TODO Check if the grid is not already full
-        Case2D cs = new Case2D((Math.abs(r.nextInt()) % 2 + 1) * 2, c);
+        Case2D cs = new Case2D((Math.abs(r.nextInt()) % 2 + 1) * 2, c, this);
         setCase(c, cs);
     }
 
@@ -156,9 +175,7 @@ public class Grille2D implements Grille, Cloneable {
     @Override
     public synchronized Grille2D clone() {
 
-        Grille2D clone = new Grille2D(size);
-
-        System.out.println("Before the for statement");
+        Grille2D clone = new Grille2D();
 
         Iterator<Entry<Coord2D,Case2D>> it = mp_coord_case.entrySet().iterator();
         Entry<Coord2D,Case2D> ent;
@@ -168,7 +185,10 @@ public class Grille2D implements Grille, Cloneable {
 
             Coord2D coord_clone = ent.getKey().clone();
             Case2D case_clone = ent.getValue().clone();
+
             case_clone.setCoord(coord_clone);
+            case_clone.setG(clone);
+
             clone.setCase(coord_clone, case_clone);
         }            
 
@@ -220,5 +240,4 @@ public class Grille2D implements Grille, Cloneable {
 
         return res;
     }
-
 }
