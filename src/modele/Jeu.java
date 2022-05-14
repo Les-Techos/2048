@@ -20,6 +20,7 @@ public class Jeu extends Observable {
         Grille2D.setSize(size);
         g = new Grille2D();
         this.size = size;
+        rnd();
     }
 
     public int getSize() {
@@ -70,15 +71,11 @@ public class Jeu extends Observable {
 
     public void move(Direction d) {
         // TODO Auto-generated method appeler wrecked
-        if(g.iswrecked()){
-            System.out.println("C mort");
-        }else if(g.iswinning()){
-            System.out.println("C win");
-        }else{
+        if (!(g.iswrecked() || g.iswinning() || g.isfull())) {
             g.move(d);
+            setChanged();
+            notifyObservers();
         }
-        setChanged();
-        notifyObservers();
     }
 
     public Grille2D getGrille() {

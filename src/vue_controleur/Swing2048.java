@@ -99,6 +99,10 @@ public class Swing2048 extends JFrame implements Observer {
                         jeu.move(Direction.haut);
                         break;
                 }
+                if(jeu.getGrille().isfull()) System.out.println("La grille est pleine ! ");
+                if(jeu.getGrille().iswrecked()) System.out.println("La grille est fucked ! ");
+                if(jeu.getGrille().iswinning()) System.out.println("La grille est gagnante ! ");
+                
             }
         });
     }

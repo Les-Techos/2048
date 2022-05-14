@@ -16,11 +16,13 @@ public class Main_test {
         }
         Grille2D j_clone = j.getGrille().clone();
 
+        if(j_clone.equals(j.getGrille())) System.out.println("Il sont pareil !");
         
-        Case2D c = j_clone.getCase(Coord2D.getInstance(0, 0));
-        c.setValeur(200);
+        Case2D c = j_clone.getCase(Coord2D.getInstance(2, 3));
         c.move(Direction.bas);
-        
+        c.move(Direction.haut);
+
+        if(j_clone.equals(j.getGrille())) System.out.println("Et là aussi !");
 
         System.out.println(j_clone.toString());
         System.out.println(j.getGrille().toString());

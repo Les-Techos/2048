@@ -130,7 +130,6 @@ public class Grille2D implements Grille, Cloneable {
         // TODO Auto-generated method stub
         for (int row = 0; row < size; row++) {
             for (int col = 0; col < size; col++) {
-
                 if (getCase(Coord2D.getInstance(row, col)) == null) {
                     return false;
                 }
@@ -147,7 +146,7 @@ public class Grille2D implements Grille, Cloneable {
                 Case2D c = getCase(Coord2D.getInstance(row, col));
                 if (c != null) {
                     if (c.getValeur() >= 2048) {
-                        System.out.println("Bien joué vous avez gagner");
+                        System.out.println("Bien joué vous avez gagné");
                         return true;
                     }
                 }
@@ -163,11 +162,11 @@ public class Grille2D implements Grille, Cloneable {
             Grille2D clone = (Grille2D) this.clone();
             for (Direction dir : Direction.values()) {
                 this.move(dir);
-                if (this.equals(clone)) {
-                    return true;
+                if (!this.equals(clone)) {
+                    return false;
                 }
             }
-
+            return true;
         }
         return false;
     }
@@ -197,24 +196,18 @@ public class Grille2D implements Grille, Cloneable {
 
     @Override
     public boolean equals(Object obj) {
-        // TODO Auto-generated method stub
-        boolean res = true;
-        if (obj.getClass() == this.getClass()) {
             for (int row = 0; row < size; row++) {
                 for (int col = 0; col < size; col++) {
                     Case2D ccompare = getCase(Coord2D.getInstance(row, col));
                     Case2D cobj = ((Grille2D) obj).getCase(Coord2D.getInstance(row, col));
                     if (ccompare != null && cobj != null) {
                         if (ccompare.getValeur() != cobj.getValeur()) {
-                            res = false;
+                            return false;
                         }
-                    }
+                    }else if(!(ccompare == null && cobj == null)) return false;
                 }
             }
-        } else {
-            res = false;
-        }
-        return res;
+            return true;
     }
 
     @Override
