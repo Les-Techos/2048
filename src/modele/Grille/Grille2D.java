@@ -1,8 +1,10 @@
 package modele.Grille;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.Map.Entry;
 
 import modele.Direction;
@@ -139,17 +141,12 @@ public class Grille2D implements Grille, Cloneable {
     public boolean iswrecked() {
         // TODO Auto-generated method stub
         if (isfull()) {
-            try {
-                Grille2D clone = (Grille2D) this.clone();
-                for (Direction dir : Direction.values()) {
-                    this.move(dir);
-                    if (this.equals(clone)) {
-                        return true;
-                    }
+            Grille2D clone = (Grille2D) this.clone();
+            for (Direction dir : Direction.values()) {
+                this.move(dir);
+                if (this.equals(clone)) {
+                    return true;
                 }
-            } catch (CloneNotSupportedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
             }
 
         }
@@ -157,11 +154,24 @@ public class Grille2D implements Grille, Cloneable {
     }
 
     @Override
-    public Grille2D clone() throws CloneNotSupportedException{
+    public synchronized Grille2D clone() {
+
         Grille2D clone = new Grille2D(size);
-        for(Entry<Coord2D, Case2D> set : mp_coord_case.entrySet()){ 
-            clone.setCase(set.getKey().clone(), set.getValue().clone());
-        }
+
+        System.out.println("Before the for statement");
+
+        Iterator<Entry<Coord2D,Case2D>> it = mp_coord_case.entrySet().iterator();
+        Entry<Coord2D,Case2D> ent;
+
+        while(it.hasNext()){
+            ent = (Entry<Coord2D,Case2D>) it.next();
+
+            Coord2D coord_clone = ent.getKey().clone();
+            Case2D case_clone = ent.getValue().clone();
+            case_clone.setCoord(coord_clone);
+            clone.setCase(coord_clone, case_clone);
+        }            
+
         return clone;
     }
 
@@ -184,6 +194,30 @@ public class Grille2D implements Grille, Cloneable {
         } else {
             res = false;
         }
+        return res;
+    }
+
+    @Override
+    public String toString() {
+        String res = "";
+
+        for (int i = 0; i < getSize(); i++) {
+            for (int j = 0; j < getSize(); j++) {
+                Case2D c = null;
+                try {
+                    c = getCase(Coord2D.getInstance(i, j));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (c != null) {
+                    System.out.format("%5.5s", c.getValeur());
+                } else {
+                    System.out.format("%5.5s", "");
+                }
+            }
+            System.out.println();
+        }
+
         return res;
     }
 

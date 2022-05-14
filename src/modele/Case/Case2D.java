@@ -63,5 +63,8 @@ public class Case2D implements Case,Cloneable{
        
     }
 
-
+    @Override
+    public String toString() {
+        return "Case2D [ value : " + valeur + "," + coord.toString() + "]";
+    }
 }

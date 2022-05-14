@@ -81,4 +81,12 @@ public class Jeu extends Observable {
         setChanged();
         notifyObservers();
     }
+
+    public Grille2D getGrille() {
+        return g;
+    }
+
+    public void setGrille(Grille2D g) {
+        this.g = g;
+    }
 }

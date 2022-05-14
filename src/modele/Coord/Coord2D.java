@@ -19,6 +19,7 @@ public class Coord2D implements Coord,Cloneable {
     public Coord2D clone(){
         return new Coord2D(this.x, this.y);
     }
+    
     public static Coord2D getInstance(int x, int y) throws IllegalArgumentException{
         Coord2D res = new Coord2D(x, y);
         boolean test = true;
@@ -91,5 +92,23 @@ public class Coord2D implements Coord,Cloneable {
         int row = r.nextInt()%g.getSize(), col = r.nextInt()%g.getSize();
         if(row <  0) row = -row; if(col < 0) col = -col;
         return new Coord2D(row, col);
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) throws Exception {
+        this.x = x;
+        if(!isCoordCorrect()) throw new IllegalArgumentException(" x passed not in range [0;" + g.getSize() + "["); 
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) throws Exception {
+        this.y = y;
+        if(!isCoordCorrect()) throw new IllegalArgumentException(" y passed not in range [0;" + g.getSize() + "[");  
     }
 }
