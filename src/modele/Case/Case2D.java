@@ -43,8 +43,15 @@ public class Case2D implements Case,Cloneable{
 
         if (neighbor != null) { // S'il existe un voisin
             if (neighbor.getValeur() == valeur) { // Si ce voisin a la même valeur
-                neighbor.setValeur(2 * valeur);
-                g.rmCase(this.coord);
+                Coord2D neighbor_coord = neighbor.getCoord();
+                
+                setValeur(2 * valeur);
+
+                g.rmCase(neighbor_coord);
+
+                g.rmCase(coord);
+                setCoord(neighbor_coord);
+                g.setCase(coord, this);
             }
         }
         else { // Sinon la place est libre

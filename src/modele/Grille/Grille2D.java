@@ -16,6 +16,7 @@ import modele.Coord.Coord2D;
 public class Grille2D implements Grille, Cloneable {
     protected HashMap<Coord2D, Case2D> mp_coord_case = new HashMap<Coord2D, Case2D>();
     public static Random r = new Random();
+    private Case2D max_case = new Case2D(0, null, this);
 
     static int size = -1;
 
@@ -86,8 +87,12 @@ public class Grille2D implements Grille, Cloneable {
                 }
 
                 Case2D case_selected = getCase(target_coord);
-                if (case_selected != null)
+                if (case_selected != null){
                     case_selected.move(dir);
+                    if(max_case.getValeur() < case_selected.getValeur())
+                       max_case = case_selected;
+                }
+                    
             }
         }
         if (!isfull()) {
@@ -127,32 +132,13 @@ public class Grille2D implements Grille, Cloneable {
 
     @Override
     public boolean isfull() {
-        // TODO Auto-generated method stub
-        for (int row = 0; row < size; row++) {
-            for (int col = 0; col < size; col++) {
-                if (getCase(Coord2D.getInstance(row, col)) == null) {
-                    return false;
-                }
-            }
-        }
-        return true;
+        return mp_coord_case.size() >= size*size;
+        
     }
 
     @Override
     public boolean iswinning() {
-        // TODO Auto-generated method stub
-        for (int row = 0; row < size; row++) {
-            for (int col = 0; col < size; col++) {
-                Case2D c = getCase(Coord2D.getInstance(row, col));
-                if (c != null) {
-                    if (c.getValeur() >= 2048) {
-                        System.out.println("Bien joué vous avez gagné");
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
+        return max_case.getValeur() >= 2048;
     }
 
     @Override
@@ -232,5 +218,9 @@ public class Grille2D implements Grille, Cloneable {
         }
 
         return res;
+    }
+
+    public Case2D getMax_case() {
+        return max_case;
     }
 }
