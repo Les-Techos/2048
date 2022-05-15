@@ -4,15 +4,16 @@ import modele.Case.Case;
 import modele.Coord.*;
 
 public interface Grille {
-
-    public int getSize();
-
     // TODO Check if the grid is full
+    public boolean isfull();
 
     // TODO Check if the grid is winning
+    public boolean iswinning();
     
     // TODO Check if the grid is wrecked
-
+    //public void wrecked();
+    public boolean iswrecked();
+    
     public void setCase(Coord c, Case cs);
 
     public void insertRandomCase();

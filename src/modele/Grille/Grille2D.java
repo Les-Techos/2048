@@ -1,7 +1,11 @@
 package modele.Grille;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Random;
+import java.util.Set;
+import java.util.Map.Entry;
 
 import modele.Direction;
 import modele.Case.Case;
@@ -9,13 +13,38 @@ import modele.Case.Case2D;
 import modele.Coord.Coord;
 import modele.Coord.Coord2D;
 
-public class Grille2D implements Grille {
+public class Grille2D implements Grille, Cloneable {
     protected HashMap<Coord2D, Case2D> mp_coord_case = new HashMap<Coord2D, Case2D>();
-    int size;
     public static Random r = new Random();
+    private Case2D max_case = new Case2D(0, null, this);
 
-    public Grille2D(int _size) {
-        size = _size;
+    static int size = -1;
+
+    public Grille2D() {
+        checkSize();
+    }
+
+    public static boolean isCoordCorrect(int x, int y) throws Exception {
+        checkSize();
+        return x >= 0 && x < size && y >= 0 && y < size;
+    }
+
+    public static void checkSize(){
+        if(size == -1){
+            try{
+                throw new Exception(" Static attributes Size has not been initialized : " + size);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void setSize(int size){
+        Grille2D.size = size;
+    }
+
+    public static int getSize(){
+        return size;
     }
 
     @Override
@@ -58,20 +87,26 @@ public class Grille2D implements Grille {
                 }
 
                 Case2D case_selected = getCase(target_coord);
-                if(case_selected != null) 
+                if (case_selected != null){
                     case_selected.move(dir);
+                    if(max_case.getValeur() < case_selected.getValeur())
+                       max_case = case_selected;
+                }
+                    
             }
         }
-        insertRandomCase();
+        if (!isfull()) {
+            insertRandomCase();
+        }
     }
 
     @Override
     public void setCase(Coord c, Case cs) {
-        if (cs == null){
+        if (cs == null) {
             rmCase(c);
             return;
         }
-            
+
         mp_coord_case.put((Coord2D) c, (Case2D) cs);
     }
 
@@ -86,17 +121,106 @@ public class Grille2D implements Grille {
     }
 
     @Override
-    public int getSize() {
-        return size;
+    public void insertRandomCase() {
+        Coord2D c = null;
+        do {
+            c = Coord2D.rand();
+        } while (getCase(c) != null); // TODO Check if the grid is not already full
+        Case2D cs = new Case2D((Math.abs(r.nextInt()) % 2 + 1) * 2, c, this);
+        setCase(c, cs);
     }
 
     @Override
-    public void insertRandomCase() {
-        Coord2D c = null;
-        do{
-            c = Coord2D.rand();
-        }while(getCase(c) != null); // TODO Check if the grid is not already full
-        Case2D cs = new Case2D( (Math.abs(r.nextInt())%2+1)*2, c);
-        setCase(c, cs);
+    public boolean isfull() {
+        return mp_coord_case.size() >= size*size;
+        
+    }
+
+    @Override
+    public boolean iswinning() {
+        return max_case.getValeur() >= 2048;
+    }
+
+    @Override
+    public boolean iswrecked() {
+        // TODO Auto-generated method stub
+        if (isfull()) {
+            Grille2D clone = (Grille2D) this.clone();
+            for (Direction dir : Direction.values()) {
+                this.move(dir);
+                if (!this.equals(clone)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public synchronized Grille2D clone() {
+
+        Grille2D clone = new Grille2D();
+
+        Iterator<Entry<Coord2D,Case2D>> it = mp_coord_case.entrySet().iterator();
+        Entry<Coord2D,Case2D> ent;
+
+        while(it.hasNext()){
+            ent = (Entry<Coord2D,Case2D>) it.next();
+
+            Coord2D coord_clone = ent.getKey().clone();
+            Case2D case_clone = ent.getValue().clone();
+
+            case_clone.setCoord(coord_clone);
+            case_clone.setG(clone);
+
+            clone.setCase(coord_clone, case_clone);
+        }            
+
+        return clone;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+            for (int row = 0; row < size; row++) {
+                for (int col = 0; col < size; col++) {
+                    Case2D ccompare = getCase(Coord2D.getInstance(row, col));
+                    Case2D cobj = ((Grille2D) obj).getCase(Coord2D.getInstance(row, col));
+                    if (ccompare != null && cobj != null) {
+                        if (ccompare.getValeur() != cobj.getValeur()) {
+                            return false;
+                        }
+                    }else if(!(ccompare == null && cobj == null)) return false;
+                }
+            }
+            return true;
+    }
+
+    @Override
+    public String toString() {
+        String res = "";
+
+        for (int i = 0; i < getSize(); i++) {
+            for (int j = 0; j < getSize(); j++) {
+                Case2D c = null;
+                try {
+                    c = getCase(Coord2D.getInstance(i, j));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (c != null) {
+                    System.out.format("%5.5s", c.getValeur());
+                } else {
+                    System.out.format("%5.5s", "");
+                }
+            }
+            System.out.println();
+        }
+
+        return res;
+    }
+
+    public Case2D getMax_case() {
+        return max_case;
     }
 }

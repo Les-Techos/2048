@@ -15,9 +15,9 @@ public class Jeu extends Observable {
     private static Random rnd = new Random(4);
 
     public Jeu(int size) {
-        g = new Grille2D(size);
-        this.size = g.getSize();
-        Coord2D.setG(g);
+        Grille2D.setSize(size);
+        g = new Grille2D();
+        this.size = size;
         rnd();
     }
 
@@ -50,10 +50,10 @@ public class Jeu extends Observable {
                                 g.setCase(c, null);
                                 break;
                             case 1:
-                                g.setCase(c, new Case2D(2, c));
+                                g.setCase(c, new Case2D(2, c, g));
                                 break;
                             case 2:
-                                g.setCase(c, new Case2D(4, c));
+                                g.setCase(c, new Case2D(4, c, g));
                                 break;
                         }
                     }
@@ -65,13 +65,19 @@ public class Jeu extends Observable {
     }
 
     public void move(Direction d) {
-        new Thread() { // permet de libérer le processus graphique ou de la console
-            public void run() {
-                g.move(d);
+        // TODO Auto-generated method appeler wrecked
+        if (!(g.iswrecked() || g.iswinning() || g.isfull())) {
+            g.move(d);
+            setChanged();
+            notifyObservers();
+        }
+    }
 
-                setChanged();
-                notifyObservers();
-            }
-        }.start();
+    public Grille2D getGrille() {
+        return g;
+    }
+
+    public void setGrille(Grille2D g) {
+        this.g = g;
     }
 }

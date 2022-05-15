@@ -5,9 +5,8 @@ import java.util.Random;
 import modele.Direction;
 import modele.Grille.Grille2D;
 
-public class Coord2D implements Coord {
+public class Coord2D implements Coord,Cloneable {
     private int x, y;
-    private static Grille2D g;
     private static Random r = new Random();
 
     private Coord2D(int x, int y){
@@ -15,11 +14,16 @@ public class Coord2D implements Coord {
         this.y = y;
     }
 
+    @Override
+    public Coord2D clone(){
+        return new Coord2D(this.x, this.y);
+    }
+    
     public static Coord2D getInstance(int x, int y) throws IllegalArgumentException{
         Coord2D res = new Coord2D(x, y);
         boolean test = true;
         try {
-            test = res.isCoordCorrect();
+            test = Grille2D.isCoordCorrect(res.getX(), res.getY());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -38,11 +42,7 @@ public class Coord2D implements Coord {
         return x * y;
     }
 
-    protected boolean isCoordCorrect() throws Exception {
-        if (g == null)
-            throw new Exception("G pointer is null");
-        return x >= 0 && x < g.getSize() && y >= 0 && y < g.getSize();
-    }
+
 
     @Override
     public Coord getVoisin(Direction dir){
@@ -63,7 +63,7 @@ public class Coord2D implements Coord {
         }
 
         try {
-            if(c.isCoordCorrect()) return c;
+            if(Grille2D.isCoordCorrect(c.getX(),c.getY())) return c;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -75,17 +75,27 @@ public class Coord2D implements Coord {
         return "Coord2D [x=" + x + ", y=" + y + "]";
     }
 
-    public static Grille2D getG() {
-        return g;
-    }
-
-    public static void setG(Grille2D g) {
-        Coord2D.g = g;
-    }
-
     public static Coord2D rand() {
-        int row = r.nextInt()%g.getSize(), col = r.nextInt()%g.getSize();
+        int row = r.nextInt()%Grille2D.getSize(), col = r.nextInt()%Grille2D.getSize();
         if(row <  0) row = -row; if(col < 0) col = -col;
         return new Coord2D(row, col);
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) throws Exception {
+        this.x = x;
+        if(!Grille2D.isCoordCorrect(getX(),getY())) throw new IllegalArgumentException(" x passed not in range [0;" + Grille2D.getSize() + "["); 
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) throws Exception {
+        this.y = y;
+        if(!Grille2D.isCoordCorrect(getX(),getY())) throw new IllegalArgumentException(" y passed not in range [0;" + Grille2D.getSize() + "[");  
     }
 }
