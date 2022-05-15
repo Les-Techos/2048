@@ -2,6 +2,8 @@ package modele;
 
 import java.util.Observable;
 import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import modele.Case.Case2D;
 import modele.Coord.Coord;
@@ -13,6 +15,8 @@ public class Jeu extends Observable {
     int size;
     private Grille2D g;
     private static Random rnd = new Random(4);
+
+    ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
 
     public Jeu(int size) {
         Grille2D.setSize(size);
@@ -30,20 +34,19 @@ public class Jeu extends Observable {
     }
 
     public void rnd() {
-        new Thread() { // permet de libérer le processus graphique ou de la console
-            public void run() {
-                int r;
+        executor.submit(() -> {
+            int r;
 
-                for (int i = 0; i < size; i++) {
-                    for (int j = 0; j < size; j++) {
-                        r = rnd.nextInt(3);
+            for (int i = 0; i < size; i++) {
+                for (int j = 0; j < size; j++) {
+                    r = rnd.nextInt(3);
 
-                        Coord2D c = null;
-                        try {
-                            c = Coord2D.getInstance(i, j);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                    Coord2D c = null;
+                    try {
+                        c = Coord2D.getInstance(i, j);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
                         switch (r) {
                             case 0:
@@ -58,19 +61,22 @@ public class Jeu extends Observable {
                         }
                     }
                 }
-                setChanged();
-                notifyObservers();
-            }
-        }.start();
+            setChanged();
+            notifyObservers();
+
+        });
+
     }
 
     public void move(Direction d) {
         // TODO Auto-generated method appeler wrecked
-        if (!(g.iswrecked() || g.iswinning() || g.isfull())) {
-            g.move(d);
-            setChanged();
-            notifyObservers();
-        }
+        executor.submit(() -> {
+            if (!(g.iswrecked() || g.iswinning() || g.isfull())) {
+                g.move(d);
+                setChanged();
+                notifyObservers();
+            }
+        });
     }
 
     public Grille2D getGrille() {
