@@ -19,8 +19,7 @@ public class Jeu extends Observable {
     ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
 
     public Jeu(int size) {
-        Grille2D.setSize(size);
-        g = new Grille2D();
+        g = new Grille2D(size);
         this.size = size;
         rnd();
     }
@@ -30,7 +29,7 @@ public class Jeu extends Observable {
     }
 
     public Case2D getCase(Coord c) {
-        return g.getCase(c);
+        return (Case2D) g.getCase(c);
     }
 
     public void rnd() {
@@ -43,7 +42,7 @@ public class Jeu extends Observable {
 
                     Coord2D c = null;
                     try {
-                        c = Coord2D.getInstance(i, j);
+                        c = Coord2D.getInstance(i, j, g);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -71,7 +70,7 @@ public class Jeu extends Observable {
     public void move(Direction d) {
         // TODO Auto-generated method appeler wrecked
         executor.submit(() -> {
-            if (!(g.iswrecked() || g.iswinning() || g.isfull())) {
+            if (!(g.iswrecked() || g.iswinning())) {
                 g.move(d);
                 setChanged();
                 notifyObservers();

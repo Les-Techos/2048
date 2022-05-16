@@ -1,13 +1,37 @@
 package modele.Coord;
 
+import java.util.Random;
+
 import modele.Direction;
+import modele.Grille.Grille;
 
-public interface Coord {
+public abstract class Coord implements Cloneable{
+    protected static Random r = new Random();
+    Grille g = null;
+
     @Override
-    public boolean equals(Object obj);
+    public abstract Coord clone();
+    
+    public abstract Coord getVoisin(Direction dir);
+    
+    @Override
+    public abstract boolean equals(Object obj);
 
     @Override
-    public int hashCode();
+    public abstract int hashCode();
 
-    public Coord getVoisin(Direction dir);
+    public boolean isCorrect(){
+        return g.checkCoord(this);
+    }
+
+    @Override
+    public abstract String toString();
+
+    public Grille getG() {
+        return g;
+    }
+
+    public void setG(Grille g) {
+        this.g = g;
+    }
 }

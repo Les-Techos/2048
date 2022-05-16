@@ -6,6 +6,7 @@ import modele.Case.Case2D;
 
 public class Main_test {
     public static void main(String[] args) {
+        /*
         Jeu j = new Jeu(4);
         j.rnd();
         try {
@@ -18,7 +19,7 @@ public class Main_test {
 
         if(j_clone.equals(j.getGrille())) System.out.println("Il sont pareil !");
         
-        Case2D c = j_clone.getCase(Coord2D.getInstance(2, 3));
+        Case2D c = (Case2D) j_clone.getCase(Coord2D.getInstance(2, 3, j_clone));
         c.move(Direction.bas);
         c.move(Direction.haut);
 
@@ -26,5 +27,6 @@ public class Main_test {
 
         System.out.println(j_clone.toString());
         System.out.println(j.getGrille().toString());
+        */
     }
 }

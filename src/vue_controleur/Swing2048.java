@@ -56,7 +56,7 @@ public class Swing2048 extends JFrame implements Observer {
                     for (int j = 0; j < jeu.getSize(); j++) {
                         Case2D c = null;
                         try {
-                            c = jeu.getCase(Coord2D.getInstance(i, j));
+                            c = jeu.getCase(Coord2D.getInstance(i, j, jeu.getGrille()));
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
