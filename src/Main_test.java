@@ -1,10 +1,13 @@
 import modele.Coord.Coord2D;
+
+import java.sql.Time;
+
 import modele.Jeu;
 
 public class Main_test {
     public static void main(String[] args) {
-        Jeu j = new Jeu(10);
+        Joueur j = new Joueur(42, Time.valueOf("06:30:02"), "Jean-Marque");
 
-        for(int i = 0; i < 100 ; i++) System.out.println(Coord2D.rand());     
+        System.out.println(j);   
     }
 }
