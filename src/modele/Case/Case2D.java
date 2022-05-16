@@ -1,6 +1,5 @@
 package modele.Case;
 
-import modele.Direction;
 import modele.Coord.Coord2D;
 import modele.Grille.Grille2D;
 

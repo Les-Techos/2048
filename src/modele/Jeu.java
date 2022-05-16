@@ -68,7 +68,6 @@ public class Jeu extends Observable {
     }
 
     public void move(Direction d) {
-        // TODO Auto-generated method appeler wrecked
         executor.submit(() -> {
             if (!(g.iswrecked() || g.iswinning())) {
                 g.move(d);

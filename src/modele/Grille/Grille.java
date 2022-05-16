@@ -29,25 +29,18 @@ public abstract class Grille implements Cloneable{
 
         Grille clone = null;
         try {
-            Class this_class = this.getClass();
             clone = this.getClass().getDeclaredConstructor(int.class).newInstance(size);
         } catch (InstantiationException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (IllegalAccessException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (IllegalArgumentException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (InvocationTargetException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (NoSuchMethodException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (SecurityException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -80,7 +73,6 @@ public abstract class Grille implements Cloneable{
     }
     
     public boolean iswrecked() {
-        // TODO Auto-generated method stub
         if (isfull()) {
             Grille clone = null;
             clone = (Grille) this.clone();
@@ -95,9 +87,23 @@ public abstract class Grille implements Cloneable{
         return false;
     }
 
+    // TODO To be patched
     @Override
-    public abstract boolean equals(Object obj);
-    // TODO Implements this here : Iterate over hashmap and look for sibling in obj
+    public boolean equals(Object obj){
+        if(obj.getClass() != this.getClass()) return false; // If they are from the same class
+
+        Grille cmp_Grille = (Grille) obj;
+        if(cmp_Grille.mp_coord_case.size() != mp_coord_case.size()) return false;
+
+        Iterator<Entry<Coord,Case>> it = mp_coord_case.entrySet().iterator();
+
+        while(it.hasNext()){
+            Entry next = it.next();
+            if(((Case)next.getValue()).getValeur() != ((Case)cmp_Grille.getCase((Coord)next.getKey())).getValeur()) return false;
+        }
+        return true;
+    }
+    
 
     public abstract boolean checkCoord(Coord c);
 

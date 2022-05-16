@@ -5,7 +5,7 @@ import modele.Case.Case2D;
 import modele.Coord.Coord;
 import modele.Coord.Coord2D;
 
-public class Grille2D extends Grille implements Cloneable {
+public class Grille2D extends Grille {
   
     public Grille2D(int _size) {
         super(_size);
@@ -58,25 +58,9 @@ public class Grille2D extends Grille implements Cloneable {
         Coord2D c = null;
         do {
             c = Coord2D.rand(this);
-        } while (getCase(c) != null); // TODO Check if the grid is not already full
+        } while (getCase(c) != null);
         Case2D cs = new Case2D((Math.abs(r.nextInt()) % 2 + 1) * 2, c, this);
         setCase(c, cs);
-    }
-  
-    @Override
-    public boolean equals(Object obj) {
-            for (int row = 0; row < size; row++) {
-                for (int col = 0; col < size; col++) {
-                    Case2D ccompare = (Case2D) getCase(Coord2D.getInstance(row, col, this));
-                    Case2D cobj = (Case2D) ((Grille2D) obj).getCase(Coord2D.getInstance(row, col, (Grille2D) obj));
-                    if (ccompare != null && cobj != null) {
-                        if (ccompare.getValeur() != cobj.getValeur()) {
-                            return false;
-                        }
-                    }else if(!(ccompare == null && cobj == null)) return false;
-                }
-            }
-            return true;
     }
 
     @Override
