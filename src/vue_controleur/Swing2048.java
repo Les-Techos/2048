@@ -15,6 +15,7 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Swing2048 extends JFrame implements Observer {
     private static final int PIXEL_PER_SQUARE = 60;
@@ -123,12 +124,6 @@ public class Swing2048 extends JFrame implements Observer {
                         }
                         break;
                 }
-                if (jeu.getGrille().isfull())
-                    System.out.println("La grille est pleine ! ");
-                if (jeu.getGrille().iswrecked())
-                    System.out.println("La grille est fucked ! ");
-                if (jeu.getGrille().iswinning())
-                    System.out.println("La grille est gagnante ! ");
             }
         });
     }

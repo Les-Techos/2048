@@ -1,17 +1,19 @@
 package modele.Grille;
+
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Map.Entry;
-
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.Iterator;
+import java.util.Observable;
 
 import modele.*;
 import modele.Case.Case;
 import modele.Coord.*;
 
-public abstract class Grille implements Cloneable, Serializable {
+public abstract class Grille extends Observable implements Cloneable, Serializable {
 
     protected HashMap<Coord, Case> mp_coord_case = new HashMap<Coord, Case>();
     public static Random r = new Random();
@@ -20,8 +22,8 @@ public abstract class Grille implements Cloneable, Serializable {
     int size = -1;
     int nbSlots = 0;
 
-    public Grille(int _size){
-        this.size  = _size;
+    public Grille(int _size) {
+        this.size = _size;
         nbSlots = calculateNbSlots();
         checkSize();
     }
@@ -45,10 +47,12 @@ public abstract class Grille implements Cloneable, Serializable {
             e.printStackTrace();
         }
 
-        Iterator<Entry<Coord,Case>> it = mp_coord_case.entrySet().iterator();
-        Entry<Coord,Case> ent;
+        clone.deleteObservers();
 
-        while(it.hasNext()){
+        Iterator<Entry<Coord, Case>> it = mp_coord_case.entrySet().iterator();
+        Entry<Coord, Case> ent;
+
+        while (it.hasNext()) {
             ent = it.next();
 
             Coord coord_clone = ent.getKey().clone();
@@ -60,26 +64,27 @@ public abstract class Grille implements Cloneable, Serializable {
             case_clone.setG(clone);
 
             clone.setCase(coord_clone, case_clone);
-        }            
+        }
 
         return clone;
     }
 
-    public synchronized boolean isfull(){
+    public synchronized boolean isfull() {
         return mp_coord_case.size() >= nbSlots;
     }
 
-    public synchronized boolean iswinning(){
+    public synchronized boolean iswinning() {
         return max_case.getValeur() >= 2048;
     }
-    
-    public synchronized boolean iswrecked() {
+
+    public synchronized boolean iswrecked(AtomicReference<Direction> soluce) {
         if (isfull()) {
             Grille clone = null;
             clone = (Grille) this.clone();
             for (Direction dir : Direction.values()) {
-                clone.move(dir);
+                clone.simple_move(dir);
                 if (!this.equals(clone)) {
+                    soluce.set(dir);
                     return false;
                 }
             }
@@ -88,36 +93,43 @@ public abstract class Grille implements Cloneable, Serializable {
         return false;
     }
 
+    public synchronized boolean iswrecked() {
+        AtomicReference<Direction> d = new AtomicReference<Direction>(Direction.bas);
+        return iswrecked(d);
+    }
+
     @Override
-    public boolean equals(Object obj){
-        if(obj.getClass() != this.getClass()) return false; // If they are from the same class
+    public boolean equals(Object obj) {
+        if (obj.getClass() != this.getClass())
+            return false; // If they are from the same class
 
         Grille cmp_Grille = (Grille) obj;
-        if(cmp_Grille.mp_coord_case.size() != mp_coord_case.size()) return false;
+        if (cmp_Grille.mp_coord_case.size() != mp_coord_case.size())
+            return false;
 
-        Iterator<Entry<Coord,Case>> it = mp_coord_case.entrySet().iterator();
+        Iterator<Entry<Coord, Case>> it = mp_coord_case.entrySet().iterator();
 
-        while(it.hasNext()){
+        while (it.hasNext()) {
             Entry next = it.next();
-            if(((Case)next.getValue()).getValeur() != ((Case)cmp_Grille.getCase((Coord)next.getKey())).getValeur()) return false;
+            if (((Case) next.getValue()).getValeur() != ((Case) cmp_Grille.getCase((Coord) next.getKey())).getValeur())
+                return false;
         }
         return true;
     }
-    
 
     public abstract boolean checkCoord(Coord c);
 
-    public void checkSize(){
-        if(size <= 0){
-            try{
+    public void checkSize() {
+        if (size <= 0) {
+            try {
                 throw new Exception(" Static attributes Size has not been initialized : " + size);
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public int getSize(){
+    public int getSize() {
         return size;
     }
 
@@ -133,7 +145,8 @@ public abstract class Grille implements Cloneable, Serializable {
             return;
         }
 
-        if(checkCoord(c)) mp_coord_case.put(c, cs);
+        if (checkCoord(c))
+            mp_coord_case.put(c, cs);
     }
 
     public abstract void insertRandomCase();
@@ -141,7 +154,7 @@ public abstract class Grille implements Cloneable, Serializable {
     public void rmCase(Coord c) {
         mp_coord_case.remove(c);
     }
-    
+
     public Case getCase(Coord c) {
         return mp_coord_case.get((Coord2D) c);
     }
@@ -163,5 +176,23 @@ public abstract class Grille implements Cloneable, Serializable {
         return max_case;
     }
 
-    public abstract void move(Direction dir);
+    protected abstract void simple_move(Direction dir);
+
+    public void move(Direction dir) {
+        simple_move(dir);
+
+        AtomicReference<Direction> d = new AtomicReference<Direction>(Direction.bas);
+        boolean wrecked = iswrecked(d);
+
+        if (isfull() || wrecked || iswinning())
+            setChanged();
+
+        if (isfull() && !wrecked)
+            notifyObservers(new GrilleInfo(EtatGrille.full, d.get()));
+        else if (wrecked)
+            notifyObservers(new GrilleInfo(EtatGrille.wrecked));
+        else if (iswinning())
+            notifyObservers(new GrilleInfo(EtatGrille.winning));
+
+    }
 }
