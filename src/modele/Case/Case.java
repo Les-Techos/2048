@@ -1,10 +1,12 @@
 package modele.Case;
 
+import java.io.Serializable;
+
 import modele.Direction;
 import modele.Coord.Coord;
 import modele.Grille.Grille;
 
-public abstract class Case implements Cloneable{
+public abstract class Case implements Cloneable, Serializable {
     protected int valeur;
     protected Coord coord;
     protected Grille g;

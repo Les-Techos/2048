@@ -24,9 +24,9 @@ public class Swing2048 extends JFrame implements Observer {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(jeu.getSize() * PIXEL_PER_SQUARE, jeu.getSize() * PIXEL_PER_SQUARE);
         tabC = new JLabel[jeu.getSize()][jeu.getSize()];
-        
+
         JPanel contentPane = new JPanel(new GridLayout(jeu.getSize(), jeu.getSize()));
-        
+
         for (int i = 0; i < jeu.getSize(); i++) {
             for (int j = 0; j < jeu.getSize(); j++) {
                 Border border = BorderFactory.createLineBorder(Color.darkGray, 5);
@@ -99,10 +99,12 @@ public class Swing2048 extends JFrame implements Observer {
                         jeu.move(Direction.haut);
                         break;
                 }
-                if(jeu.getGrille().isfull()) System.out.println("La grille est pleine ! ");
-                if(jeu.getGrille().iswrecked()) System.out.println("La grille est fucked ! ");
-                if(jeu.getGrille().iswinning()) System.out.println("La grille est gagnante ! ");
-                
+                if (jeu.getGrille().isfull())
+                    System.out.println("La grille est pleine ! ");
+                if (jeu.getGrille().iswrecked())
+                    System.out.println("La grille est fucked ! ");
+                if (jeu.getGrille().iswinning())
+                    System.out.println("La grille est gagnante ! ");
             }
         });
     }

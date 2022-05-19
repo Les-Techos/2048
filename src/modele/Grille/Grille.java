@@ -1,4 +1,5 @@
 package modele.Grille;
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Random;
@@ -10,7 +11,7 @@ import modele.*;
 import modele.Case.Case;
 import modele.Coord.*;
 
-public abstract class Grille implements Cloneable{
+public abstract class Grille implements Cloneable, Serializable {
 
     protected HashMap<Coord, Case> mp_coord_case = new HashMap<Coord, Case>();
     public static Random r = new Random();
@@ -64,15 +65,15 @@ public abstract class Grille implements Cloneable{
         return clone;
     }
 
-    public boolean isfull(){
+    public synchronized boolean isfull(){
         return mp_coord_case.size() >= nbSlots;
     }
 
-    public boolean iswinning(){
+    public synchronized boolean iswinning(){
         return max_case.getValeur() >= 2048;
     }
     
-    public boolean iswrecked() {
+    public synchronized boolean iswrecked() {
         if (isfull()) {
             Grille clone = null;
             clone = (Grille) this.clone();
@@ -87,7 +88,6 @@ public abstract class Grille implements Cloneable{
         return false;
     }
 
-    // TODO To be patched
     @Override
     public boolean equals(Object obj){
         if(obj.getClass() != this.getClass()) return false; // If they are from the same class

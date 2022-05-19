@@ -1,11 +1,12 @@
 package modele.Coord;
 
+import java.io.Serializable;
 import java.util.Random;
 
 import modele.Direction;
 import modele.Grille.Grille;
 
-public abstract class Coord implements Cloneable{
+public abstract class Coord implements Cloneable, Serializable {
     protected static Random r = new Random();
     Grille g = null;
 
