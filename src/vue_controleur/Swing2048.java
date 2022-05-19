@@ -4,12 +4,15 @@ import modele.Direction;
 import modele.Jeu;
 import modele.Case.Case2D;
 import modele.Coord.Coord2D;
+import modele.Grille.Grille2D;
+import util.Serializer;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -97,6 +100,27 @@ public class Swing2048 extends JFrame implements Observer {
                         break;
                     case KeyEvent.VK_UP:
                         jeu.move(Direction.haut);
+                        break;
+                    case KeyEvent.VK_NUMPAD2:
+                        try {
+                            Serializer.save(jeu.getGrille(), "GrilleSave.txt");
+                            System.out.println("La grille est sauvegardée");
+                        } catch (IOException e1) {
+                            System.out.println("Erreur lors de la sauvegarde de la grille");
+                            e1.printStackTrace();
+                        }
+                        break;
+                    case KeyEvent.VK_NUMPAD8:
+                        try {
+                            jeu.setGrille((Grille2D) Serializer.load("GrilleSave.txt"));
+                            System.out.println("La grille est chargée");
+                        }catch (ClassNotFoundException e1) {
+                            System.out.println("Erreur lors du chargement de la grille");
+                            e1.printStackTrace();
+                        } catch (IOException e1) {
+                            System.out.println("Erreur lors de l'ouverture du fichier");
+                            e1.printStackTrace();
+                        }
                         break;
                 }
                 if (jeu.getGrille().isfull())

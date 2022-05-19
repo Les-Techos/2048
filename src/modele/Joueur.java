@@ -1,3 +1,4 @@
+package modele;
 import java.io.Serializable;
 import java.sql.Time;
 
@@ -14,6 +15,6 @@ public class Joueur implements Serializable  {
 
     @Override
     public String toString() {
-        return "[nom : " + nom + "; min_time : " + min_time.toString() + "; meilleur_score : " + meilleur_score;
+        return "[nom : " + nom + "; min_time : " + min_time.toString() + "; meilleur_score : " + meilleur_score + "]";
     }    
 }

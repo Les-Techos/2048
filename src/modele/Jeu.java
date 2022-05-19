@@ -102,6 +102,8 @@ public class Jeu extends Observable implements AutoCloseable {
 
     public void setGrille(Grille2D g) {
         this.g = g;
+        setChanged();
+        notifyObservers();
     }
 
     @Override
