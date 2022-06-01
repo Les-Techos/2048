@@ -102,7 +102,7 @@ public class Swing2048 extends JFrame implements Observer {
                     case KeyEvent.VK_UP:
                         jeu.move(Direction.haut);
                         break;
-                    case KeyEvent.VK_NUMPAD2:
+                    case KeyEvent.VK_S:
                         try {
                             Serializer.save(jeu.getGrille(), "GrilleSave.txt");
                             System.out.println("La grille est sauvegardée");
@@ -111,7 +111,7 @@ public class Swing2048 extends JFrame implements Observer {
                             e1.printStackTrace();
                         }
                         break;
-                    case KeyEvent.VK_NUMPAD8:
+                    case KeyEvent.VK_L:
                         try {
                             jeu.setGrille((Grille2D) Serializer.load("GrilleSave.txt"));
                             System.out.println("La grille est chargée");
