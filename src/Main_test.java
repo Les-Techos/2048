@@ -18,60 +18,81 @@ import modele.Joueur;
 import modele.Case.Case2D;
 import modele.Coord.Coord2D;
 import modele.Direction.Direction2D;
+import modele.Grille.Grille;
 import modele.Grille.Grille2D;
 import util.Serializer;
 
 public class Main_test {
     public static void main(String args[]) throws InterruptedException {
+        run();
+        // main2();
+    }
 
-        Grille2D g = new Grille2D(5), g_clone; // Initialisation de la grille
+    public static void main2() throws InterruptedException {
+        Grille2D g = new Grille2D(4); // Initialisation de la grille
         for (int i = 0; i < 4; i++) // Insertion des cases
             g.insertRandomCase();
 
-        g_clone = (Grille2D) g.clone(); // Garde une copie
+        System.out.println(g);
+        System.out.println(getBestDir(g));
+    }
 
-        Random r = new Random();
+    public static void run() {
+        Grille2D g = new Grille2D(4); // Initialisation de la grille
+        for (int i = 0; i < 4; i++) // Insertion des cases
+            g.insertRandomCase();
 
         int step = 0;
 
-        while (!(g_clone.iswinning() || g_clone.iswrecked())) { // Tant que notre noeud courant n'est pas terminé
-            double max_max = 0; // On sauvegarde le maximum des moyennes des maximums
-            System.out.println("Etape n° " + step++);
-            System.out.println(g_clone);
-            Direction2D max_dir = Direction2D.gauche;
+        while (!(g.iswinning() || g.iswrecked())) { // Tant que notre noeud courant n'est pas terminé
 
-            for (Direction2D dir : g_clone.getAvailableDirections()) { // Pour chaque direction
-                int max = 0;
-                g.move(dir); // On bouge
-                g.insertRandomCase();
-                int nb_essais = 100;
+            Direction2D max_dir = getBestDir(g);
+            step(g, max_dir);
 
-                for (int i = 0; i < nb_essais; i++) {
-                    g = (Grille2D) g_clone.clone();
-                    while (!(g.iswinning() || g.iswrecked())) {
-
-                        ArrayList<Direction2D> poss = g.getAvailableDirections();
-                        g.move(poss.get(Math.abs(r.nextInt()) % poss.size()));
-                        g.insertRandomCase();
-                    }
-                    if(max < g.getMax_case().getValeur()){
-                        max = g.getMax_case().getValeur();
-                        System.out.println("Max = " + max);
-                    }
-                }
-
-                System.out.println("Direction de départ : " + dir + " / Le maximum atteint est : " + max);
-
-                if (max > max_max) {
-                    max_max = max;
-                    max_dir = dir;
-                }
-            }
-
-            System.out.println("Direction choisie : " + max_dir + " \n \n");
-            g_clone.move(max_dir); g_clone.insertRandomCase();
+            System.out.println("Etape n° " + step++ + " / " + max_dir);
+            System.out.println(g);
         }
-        System.out.println(g);
     }
 
+    public static Direction2D getBestDir(Grille2D base_g) {
+        Direction2D max_dir = null;
+        double max_score = -1; // On sauvegarde le maximum des moyennes des maximums
+        for (Direction2D dir : base_g.getAvailableDirections()) { // Pour chaque direction
+            Grille2D g = (Grille2D) base_g.clone();
+            step(g, dir);
+
+            double score = getMaxScore(g, 50);
+
+            // System.out.println("Direction de départ : " + dir + " / Le score atteint est
+            // : " + max);
+
+            if (score > max_score) {
+                max_score = score;
+                max_dir = dir;
+            }
+        }
+        return max_dir;
+    }
+
+    public static double getMaxScore(Grille2D base_grid, int nb_tries) {
+        Random r = new Random();
+        double score = 0;
+
+        for (int i = 0; i < nb_tries; i++) {
+            Grille2D g = (Grille2D) base_grid.clone();
+            int nb_steps = 0;
+            while (!(g.iswinning() || g.iswrecked())) {
+                ArrayList<Direction2D> poss = g.getAvailableDirections();
+                step(g, poss.get(Math.abs(r.nextInt()) % poss.size()));
+                nb_steps++;
+            }
+            score += nb_steps/(double)nb_tries;
+        }
+
+        return score;
+    }
+
+    public static void step(Grille2D g, Direction2D d) {
+        g.move(d);
+    }
 }

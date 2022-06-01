@@ -48,8 +48,6 @@ public class Grille2D extends Grille {
 
             }
         }
-        if (!isfull())
-            insertRandomCase();
     }
 
     @Override
@@ -61,7 +59,14 @@ public class Grille2D extends Grille {
         do {
             c = Coord2D.rand(this);
         } while (getCase(c) != null);
-        Case2D cs = new Case2D((Math.abs(r.nextInt()) % 2 + 1) * 2, c, this);
+        int rd = Math.abs(r.nextInt()%10);
+
+        Case2D cs = null;
+
+        if(rd == 9)
+            cs = new Case2D( 4, c, this);
+        else
+            cs = new Case2D( 2, c, this);
         setCase(c, cs);
     }
 

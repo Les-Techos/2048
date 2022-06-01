@@ -57,16 +57,15 @@ public abstract class Grille extends Observable implements Cloneable, Serializab
         while (it.hasNext()) {
             ent = it.next();
 
-            Coord coord_clone = ent.getKey().clone();
             Case case_clone = ent.getValue().clone();
+            Coord coord_clone = case_clone.getCoord();
 
-            coord_clone.setG(clone);
-
-            case_clone.setCoord(coord_clone);
             case_clone.setG(clone);
 
             clone.setCase(coord_clone, case_clone);
         }
+
+        clone.max_case = max_case.clone(); 
 
         return clone;
     }
@@ -82,7 +81,7 @@ public abstract class Grille extends Observable implements Cloneable, Serializab
     public synchronized boolean iswrecked(AtomicReference<Direction2D> soluce) {
         if (isfull()) {
             Grille clone = null;
-            
+
             for (Direction2D dir : Direction2D.values()) {
                 clone = (Grille) this.clone();
                 clone.simple_move(dir);
@@ -103,11 +102,12 @@ public abstract class Grille extends Observable implements Cloneable, Serializab
             for (Direction2D dir : Direction2D.values()) {
                 clone = (Grille) this.clone();
                 clone.simple_move(dir);
-                if (!this.equals(clone)) 
+                if (!this.equals(clone))
                     res.add(dir);
             }
-        }else
-            for (Direction2D dir : Direction2D.values()) res.add(dir);
+        } else
+            for (Direction2D dir : Direction2D.values())
+                res.add(dir);
         return res;
     }
 
@@ -162,9 +162,12 @@ public abstract class Grille extends Observable implements Cloneable, Serializab
             rmCase(c);
             return;
         }
-
-        if (checkCoord(c))
+        
+        if (checkCoord(c)){
+            if(max_case.getValeur() < cs.getValeur()) max_case = cs;
             mp_coord_case.put(c, cs);
+        }
+           
     }
 
     public abstract void insertRandomCase();
@@ -194,6 +197,13 @@ public abstract class Grille extends Observable implements Cloneable, Serializab
         return max_case;
     }
 
+    public int getSum(){
+        int res = 0;
+        Iterator iter = mp_coord_case.entrySet().iterator();
+        while(iter.hasNext()) res += ((Entry<Coord, Case>) iter.next()).getValue().getValeur();
+        return res;
+    }
+
     protected abstract void simple_move(Direction2D dir);
 
     public synchronized void move(Direction2D dir) {
@@ -211,6 +221,9 @@ public abstract class Grille extends Observable implements Cloneable, Serializab
             notifyObservers(new GrilleInfo(EtatGrille.wrecked));
         else if (iswinning())
             notifyObservers(new GrilleInfo(EtatGrille.winning));
+
+        if (!isfull())
+            insertRandomCase();
 
     }
 }

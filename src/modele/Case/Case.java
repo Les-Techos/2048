@@ -74,5 +74,6 @@ public abstract class Case implements Cloneable, Serializable {
 
     public void setG(Grille g) {
         this.g = g;
+        coord.setG(g);
     }
 }
