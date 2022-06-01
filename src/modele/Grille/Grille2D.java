@@ -2,10 +2,10 @@ package modele.Grille;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import modele.Direction;
 import modele.Case.Case2D;
 import modele.Coord.Coord;
 import modele.Coord.Coord2D;
+import modele.Direction.Direction2D;
 
 public class Grille2D extends Grille {
 
@@ -15,7 +15,7 @@ public class Grille2D extends Grille {
     }
 
     @Override
-    protected void simple_move(Direction dir) {
+    protected void simple_move(Direction2D dir) {
         for (int row = 0; row < size; row++) {
             for (int col = 0; col < size; col++) {
 

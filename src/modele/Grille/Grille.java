@@ -2,6 +2,7 @@ package modele.Grille;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Map.Entry;
@@ -12,6 +13,7 @@ import java.util.Observable;
 import modele.*;
 import modele.Case.Case;
 import modele.Coord.*;
+import modele.Direction.Direction2D;
 
 public abstract class Grille extends Observable implements Cloneable, Serializable {
 
@@ -77,11 +79,12 @@ public abstract class Grille extends Observable implements Cloneable, Serializab
         return max_case.getValeur() >= 2048;
     }
 
-    public synchronized boolean iswrecked(AtomicReference<Direction> soluce) {
+    public synchronized boolean iswrecked(AtomicReference<Direction2D> soluce) {
         if (isfull()) {
             Grille clone = null;
-            clone = (Grille) this.clone();
-            for (Direction dir : Direction.values()) {
+            
+            for (Direction2D dir : Direction2D.values()) {
+                clone = (Grille) this.clone();
                 clone.simple_move(dir);
                 if (!this.equals(clone)) {
                     soluce.set(dir);
@@ -93,8 +96,23 @@ public abstract class Grille extends Observable implements Cloneable, Serializab
         return false;
     }
 
+    public synchronized ArrayList<Direction2D> getAvailableDirections() {
+        ArrayList<Direction2D> res = new ArrayList<Direction2D>();
+        if (isfull()) {
+            Grille clone = null;
+            for (Direction2D dir : Direction2D.values()) {
+                clone = (Grille) this.clone();
+                clone.simple_move(dir);
+                if (!this.equals(clone)) 
+                    res.add(dir);
+            }
+        }else
+            for (Direction2D dir : Direction2D.values()) res.add(dir);
+        return res;
+    }
+
     public synchronized boolean iswrecked() {
-        AtomicReference<Direction> d = new AtomicReference<Direction>(Direction.bas);
+        AtomicReference<Direction2D> d = new AtomicReference<Direction2D>(Direction2D.bas);
         return iswrecked(d);
     }
 
@@ -139,7 +157,7 @@ public abstract class Grille extends Observable implements Cloneable, Serializab
 
     public abstract int calculateNbSlots();
 
-    public void setCase(Coord c, Case cs) {
+    public synchronized void setCase(Coord c, Case cs) {
         if (cs == null) {
             rmCase(c);
             return;
@@ -159,7 +177,7 @@ public abstract class Grille extends Observable implements Cloneable, Serializab
         return mp_coord_case.get((Coord2D) c);
     }
 
-    public Case getVoisin(Case cs, Direction dir) {
+    public Case getVoisin(Case cs, Direction2D dir) {
 
         Coord neighbor_coord = cs.getCoord(); // Les coordonnées du voisin
         Case cs_res = null;
@@ -176,12 +194,12 @@ public abstract class Grille extends Observable implements Cloneable, Serializab
         return max_case;
     }
 
-    protected abstract void simple_move(Direction dir);
+    protected abstract void simple_move(Direction2D dir);
 
-    public void move(Direction dir) {
+    public synchronized void move(Direction2D dir) {
         simple_move(dir);
 
-        AtomicReference<Direction> d = new AtomicReference<Direction>(Direction.bas);
+        AtomicReference<Direction2D> d = new AtomicReference<Direction2D>(Direction2D.bas);
         boolean wrecked = iswrecked(d);
 
         if (isfull() || wrecked || iswinning())

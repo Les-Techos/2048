@@ -2,8 +2,8 @@ package modele.Case;
 
 import java.io.Serializable;
 
-import modele.Direction;
 import modele.Coord.Coord;
+import modele.Direction.Direction2D;
 import modele.Grille.Grille;
 
 public abstract class Case implements Cloneable, Serializable {
@@ -20,7 +20,7 @@ public abstract class Case implements Cloneable, Serializable {
     @Override
     public abstract Case2D clone();
 
-    public void move(Direction d) {
+    public void move(Direction2D d) {
         Case neighbor = g.getVoisin(this, d); // Le voisin s'il existe
 
         if (neighbor != null) { // S'il existe un voisin
