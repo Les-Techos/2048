@@ -7,16 +7,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
-import modele.Jeu;
-import modele.Joueur;
-import modele.Case.Case2D;
-import modele.Coord.Coord2D;
 import modele.Direction.Direction2D;
 import modele.Grille.Grille;
 import modele.Grille.Grille2D;
@@ -64,7 +55,7 @@ public class Main_test {
             Grille2D g = (Grille2D) base_g.clone();
             step(g, dir);
 
-            double score = getScore(g, 100);
+            double score = getScore(g, 70);
 
             // System.out.println("Direction de départ : " + dir + " / Le score atteint est
             // : " + max);
