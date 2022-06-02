@@ -43,4 +43,10 @@ public class Grille2D_IA extends Grille2D implements IA_Agent {
         return iswinning();
     }
 
+    @Override
+    public void build() {
+        for (int i = 0; i < 4; i++) // Insertion des cases
+        insertRandomCase();
+    }
+
 }

@@ -5,7 +5,11 @@ import java.util.Random;
 
 public class MC_IA {
 
-    public int nb_tries = 70;
+    protected int nb_tries = 0;
+
+    public MC_IA(int nb_tries) {
+        this.nb_tries = nb_tries;
+    }
 
     public IA_Action getBestAction(IA_Agent base_agent){
         IA_Action best_action = null;
