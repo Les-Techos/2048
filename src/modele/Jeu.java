@@ -16,7 +16,7 @@ public class Jeu extends Observable implements AutoCloseable {
 
     int size;
     private Grille2D g;
-    private static Random rnd = new Random(4);
+    private static Random rnd = new Random();
 
     public ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
 

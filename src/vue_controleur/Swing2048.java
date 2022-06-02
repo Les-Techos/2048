@@ -18,27 +18,42 @@ public class Swing2048 extends JFrame implements Observer {
     // tableau de cases : i, j -> case graphique
     private JLabel[][] tabC;
     private Jeu jeu;
+    private Canva dessin;
+    
 
     public Swing2048(Jeu _jeu) {
         jeu = _jeu;
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(jeu.getSize() * PIXEL_PER_SQUARE, jeu.getSize() * PIXEL_PER_SQUARE);
-        tabC = new JLabel[jeu.getSize()][jeu.getSize()];
+        //fenetre principale 
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setSize(500,500); // largeur longueur
+        //this.setLocationRelativeTo(null);
+        this.setName("test animation");
+        //this.setResizable(false);
+        int taille = jeu.getSize();
+        dessin =new Canva(_jeu);
+        dessin.setFocusable(false);
+        System.out.println(jeu.getGrille());
+        //Composant
+        JButton test = new JButton("test");
 
-        JPanel contentPane = new JPanel(new GridLayout(jeu.getSize(), jeu.getSize()));
-
-        for (int i = 0; i < jeu.getSize(); i++) {
-            for (int j = 0; j < jeu.getSize(); j++) {
-                Border border = BorderFactory.createLineBorder(Color.darkGray, 5);
-                tabC[i][j] = new JLabel();
-                tabC[i][j].setBorder(border);
-                tabC[i][j].setHorizontalAlignment(SwingConstants.CENTER);
-
-                contentPane.add(tabC[i][j]);
-
-            }
-        }
-        setContentPane(contentPane);
+        //Layout et panel fils
+        BorderLayout b = new BorderLayout();
+        JPanel pprincipale = new JPanel(b);
+        JPanel menusud = new JPanel(new FlowLayout());
+        
+        menusud.add(new JLabel("ICI C LE MENU"));
+        menusud.add(test);
+        menusud.setFocusable(false);
+        pprincipale.add(dessin,BorderLayout.CENTER);
+        //pprincipale.add(menusud,BorderLayout.SOUTH);
+       
+        this.setContentPane(pprincipale);
+        this.setVisible(true);
+        
+        //anime("up",100);
+        //anime("right",100);
+        //anime("down",100);
+        //anime("left",100);
         ajouterEcouteurClavier();
         rafraichir();
 
@@ -52,25 +67,8 @@ public class Swing2048 extends JFrame implements Observer {
         SwingUtilities.invokeLater(new Runnable() { // demande au processus graphique de réaliser le traitement
             @Override
             public void run() {
-                for (int i = 0; i < jeu.getSize(); i++) {
-                    for (int j = 0; j < jeu.getSize(); j++) {
-                        Case2D c = null;
-                        try {
-                            c = jeu.getCase(Coord2D.getInstance(i, j, jeu.getGrille()));
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-                        if (c == null) {
-
-                            tabC[i][j].setText("");
-
-                        } else {
-                            tabC[i][j].setText(c.getValeur() + "");
-                        }
-
-                    }
-                }
+             dessin.repaint();
+             //System.out.println("repeinture");
             }
         });
 
