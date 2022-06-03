@@ -14,9 +14,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class Swing2048 extends JFrame implements Observer {
-    private static final int PIXEL_PER_SQUARE = 60;
     // tableau de cases : i, j -> case graphique
-    private JLabel[][] tabC;
     private Jeu jeu;
     private Canva dessin;
     
@@ -28,6 +26,7 @@ public class Swing2048 extends JFrame implements Observer {
         this.setSize(500,500); // largeur longueur
         //this.setLocationRelativeTo(null);
         this.setName("test animation");
+        this.setFocusable(true);
         //this.setResizable(false);
         int taille = jeu.getSize();
         dessin =new Canva(_jeu);
@@ -35,27 +34,31 @@ public class Swing2048 extends JFrame implements Observer {
         System.out.println(jeu.getGrille());
         //Composant
         JButton test = new JButton("test");
+        test.setFocusable(false);
 
         //Layout et panel fils
         BorderLayout b = new BorderLayout();
         JPanel pprincipale = new JPanel(b);
+        pprincipale.setName("pprincipale");
         JPanel menusud = new JPanel(new FlowLayout());
-        
+        menusud.setFocusable(false);
+        menusud.setName("menu");
+
         menusud.add(new JLabel("ICI C LE MENU"));
         menusud.add(test);
-        menusud.setFocusable(false);
         pprincipale.add(dessin,BorderLayout.CENTER);
-        //pprincipale.add(menusud,BorderLayout.SOUTH);
+        pprincipale.add(menusud,BorderLayout.SOUTH);
+        pprincipale.setFocusable(false);
        
         this.setContentPane(pprincipale);
         this.setVisible(true);
-        
-        //anime("up",100);
-        //anime("right",100);
-        //anime("down",100);
-        //anime("left",100);
         ajouterEcouteurClavier();
         rafraichir();
+        System.out.println("Frame " +this.isFocusOwner());
+        
+        System.out.println("Panel " +pprincipale.isFocusOwner());
+        System.out.println("menu " +menusud.isFocusOwner());
+        System.out.println("bouton " +test.isFocusOwner());
 
     }
 
