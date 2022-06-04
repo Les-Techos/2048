@@ -18,7 +18,7 @@ import modele.Grille.Grille2D;
 public class Jeu extends Observable implements AutoCloseable, Observer {
 
     int size;
-    private Grille2D g;
+    protected Grille2D g;
     private static Random rnd = new Random(4);
 
     Semaphore s = new Semaphore(1);

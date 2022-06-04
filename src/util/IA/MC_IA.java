@@ -2,13 +2,22 @@ package util.IA;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class MC_IA {
 
     protected int nb_tries = 0;
+    protected int nb_threads;
+    protected ThreadPoolExecutor tpe;
 
-    public MC_IA(int nb_tries) {
+    public MC_IA(int nb_tries, int nb_threads) {
         this.nb_tries = nb_tries;
+        this.nb_threads = nb_threads;
+        tpe = (ThreadPoolExecutor) Executors.newFixedThreadPool(nb_threads);
     }
 
     public IA_Action getBestAction(IA_Agent base_agent){
@@ -30,22 +39,44 @@ public class MC_IA {
 
     public double getScore(IA_Agent base_agent){
         Random r = new Random();
-        double score = 0;
+        double tot_score = 0;
 
-        for (int i = 0; i < nb_tries; i++) {
-            IA_Agent g = (IA_Agent)base_agent.clone();
-            int nb_steps = 0;
-            while (!(g.isFinished())) {
-                ArrayList<IA_Action> poss = g.getAvailableActions();
-                g.step(poss.get(Math.abs(r.nextInt()) % poss.size()));
-                nb_steps++;
-            }
-            if(g.isWinning()){
-                nb_steps += nb_tries;
-            }
-            score += nb_steps;
+        int nb_tasks_per_thread = nb_tries/nb_threads;
+        
+        ArrayList<Future<Double>> results = new ArrayList<Future<Double>>();
+        for(int thread_id = 0; thread_id < nb_tasks_per_thread; thread_id++){
+            results.add(tpe.submit(new Callable<Double>(){
+
+                @Override
+                public Double call() throws Exception {
+                    double score = 0;
+                    for (int i = 0; i < nb_tasks_per_thread; i++) {
+                        IA_Agent g = (IA_Agent)base_agent.clone();
+                        int nb_steps = 0;
+                        while (!(g.isFinished())) {
+                            ArrayList<IA_Action> poss = g.getAvailableActions();
+                            g.step(poss.get(Math.abs(r.nextInt()) % poss.size()));
+                            nb_steps++;
+                        }
+                        if(g.isWinning()){
+                            nb_steps += nb_tries;
+                        }
+                        score += nb_steps;
+                    }
+                    return score;
+                }}));
         }
+        for(int thread_id = 0; thread_id < nb_tasks_per_thread; thread_id++)
+            try {
+                tot_score+=results.get(thread_id).get();
+            } catch (InterruptedException | ExecutionException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        return tot_score/((double)nb_tries);
+    }
 
-        return score/((double)nb_tries);
+    public void stop(){
+        tpe.shutdown();
     }
 }
