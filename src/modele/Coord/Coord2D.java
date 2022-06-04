@@ -1,6 +1,6 @@
 package modele.Coord;
 
-import modele.Direction;
+import modele.Direction.Direction2D;
 import modele.Grille.Grille2D;
 
 public class Coord2D extends Coord {
@@ -36,7 +36,7 @@ public class Coord2D extends Coord {
     }
     
     @Override
-    public Coord getVoisin(Direction dir){
+    public Coord getVoisin(Direction2D dir){
         Coord2D c = null;
         Grille2D g = (Grille2D) this.g;
         switch (dir) {

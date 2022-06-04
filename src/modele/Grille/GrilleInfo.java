@@ -1,22 +1,22 @@
 package modele.Grille;
 
-import modele.Direction;
+import modele.Direction.Direction2D;
 
 public class GrilleInfo {
-    Direction indice;
+    Direction2D indice;
     EtatGrille etat;
 
     public GrilleInfo(EtatGrille etat) {
         this.etat = etat;
     }
-    public GrilleInfo(EtatGrille etat, Direction indice) {
+    public GrilleInfo(EtatGrille etat, Direction2D indice) {
         this.indice = indice;
         this.etat = etat;
     }
-    public Direction getIndice() {
+    public Direction2D getIndice() {
         return indice;
     }
-    public void setIndice(Direction indice) {
+    public void setIndice(Direction2D indice) {
         this.indice = indice;
     }
     public EtatGrille getEtat() {

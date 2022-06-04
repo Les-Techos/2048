@@ -3,7 +3,7 @@ package modele.Coord;
 import java.io.Serializable;
 import java.util.Random;
 
-import modele.Direction;
+import modele.Direction.Direction2D;
 import modele.Grille.Grille;
 
 public abstract class Coord implements Cloneable, Serializable {
@@ -13,7 +13,7 @@ public abstract class Coord implements Cloneable, Serializable {
     @Override
     public abstract Coord clone();
     
-    public abstract Coord getVoisin(Direction dir);
+    public abstract Coord getVoisin(Direction2D dir);
     
     @Override
     public abstract boolean equals(Object obj);

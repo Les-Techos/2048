@@ -2,10 +2,10 @@ package modele.Grille;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import modele.Direction;
 import modele.Case.Case2D;
 import modele.Coord.Coord;
 import modele.Coord.Coord2D;
+import modele.Direction.Direction2D;
 
 public class Grille2D extends Grille {
 
@@ -15,7 +15,7 @@ public class Grille2D extends Grille {
     }
 
     @Override
-    protected void simple_move(Direction dir) {
+    protected void simple_move(Direction2D dir) {
         for (int row = 0; row < size; row++) {
             for (int col = 0; col < size; col++) {
 
@@ -48,8 +48,6 @@ public class Grille2D extends Grille {
 
             }
         }
-        if (!isfull())
-            insertRandomCase();
     }
 
     @Override
@@ -61,7 +59,14 @@ public class Grille2D extends Grille {
         do {
             c = Coord2D.rand(this);
         } while (getCase(c) != null);
-        Case2D cs = new Case2D((Math.abs(r.nextInt()) % 2 + 1) * 2, c, this);
+        int rd = Math.abs(r.nextInt()%10);
+
+        Case2D cs = null;
+
+        if(rd == 9)
+            cs = new Case2D( 4, c, this);
+        else
+            cs = new Case2D( 2, c, this);
         setCase(c, cs);
     }
 
