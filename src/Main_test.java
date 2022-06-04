@@ -20,7 +20,7 @@ public class Main_test {
     public static void main(String args[]) throws InterruptedException {
         long start = System.currentTimeMillis();
 
-        MC_IA ia = new MC_IA(50, 8);
+        MC_IA ia = new MC_IA(50, 2);
 
         Grille2D_IA g = new Grille2D_IA(4); // Initialisation de la grille
         for (int i = 0; i < 4; i++) // Insertion des cases
@@ -33,11 +33,12 @@ public class Main_test {
             IA_Action act = (IA_Action) ia.getBestAction(g);
             g.step(act);
 
-             System.out.println("Etape n° " + step++ + " / " + act.getAction());
-             System.out.println(g);
+            System.out.println("Etape n° " + step++ + " / " + act.getAction());
+            System.out.println(g);
         }
         System.out.println((System.currentTimeMillis() - start) / 1000 + " s");
         ia.stop();
+        System.out.println(g);
     }
 
 }

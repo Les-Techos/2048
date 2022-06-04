@@ -12,11 +12,14 @@ public class MC_IA {
 
     protected int nb_tries = 0;
     protected int nb_threads;
+    protected int nb_tasks_per_thread;
     protected ThreadPoolExecutor tpe;
 
     public MC_IA(int nb_tries, int nb_threads) {
         this.nb_tries = nb_tries;
         this.nb_threads = nb_threads;
+        nb_tasks_per_thread = nb_tries/nb_threads;
+        
         tpe = (ThreadPoolExecutor) Executors.newFixedThreadPool(nb_threads);
     }
 
@@ -41,10 +44,8 @@ public class MC_IA {
         Random r = new Random();
         double tot_score = 0;
 
-        int nb_tasks_per_thread = nb_tries/nb_threads;
-        
         ArrayList<Future<Double>> results = new ArrayList<Future<Double>>();
-        for(int thread_id = 0; thread_id < nb_tasks_per_thread; thread_id++){
+        for(int thread_id = 0; thread_id < nb_threads; thread_id++){
             results.add(tpe.submit(new Callable<Double>(){
 
                 @Override
@@ -66,7 +67,7 @@ public class MC_IA {
                     return score;
                 }}));
         }
-        for(int thread_id = 0; thread_id < nb_tasks_per_thread; thread_id++)
+        for(int thread_id = 0; thread_id < nb_threads; thread_id++)
             try {
                 tot_score+=results.get(thread_id).get();
             } catch (InterruptedException | ExecutionException e) {
