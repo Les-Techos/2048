@@ -31,7 +31,7 @@ public class Canva extends JPanel {
         this.setName("Canva");
         this.nbcolonnes = _jeu.getSize();
         this.nblignes = _jeu.getSize(); 
-        this.coloration = Couleur.choix();
+        this.coloration = Couleur.choix(0);
     }
 
     public void paintComponent(Graphics g) {
@@ -80,6 +80,14 @@ public class Canva extends JPanel {
 
     public int getPosY() {
         return posY;
+    }
+
+    public HashMap<Integer, Color> getColoration() {
+        return coloration;
+    }
+
+    public void setColoration(HashMap<Integer, Color> coloration) {
+        this.coloration = coloration;
     }
 
     public void setPosY(int posY) {
