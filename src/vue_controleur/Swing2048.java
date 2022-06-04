@@ -4,8 +4,7 @@ import modele.Direction;
 import modele.Jeu;
 import modele.Case.Case2D;
 import modele.Coord.Coord2D;
-import modele.Grille.Grille2D;
-import util.Serializer;
+import vue_controleur.vue_Listenner.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -17,34 +16,102 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.atomic.AtomicReference;
 
+
+
 public class Swing2048 extends JFrame implements Observer {
-    private static final int PIXEL_PER_SQUARE = 60;
     // tableau de cases : i, j -> case graphique
-    private JLabel[][] tabC;
+    static boolean iaplay;
     private Jeu jeu;
+    private Canva dessin;
+    private JProgressBar progressBar;
+    private JButton sauvegarde;
+    private JLoad loadlistenner;
+    private JSave savelistenener;
+    private JButton charger;
+    private JComboBox comboBox;
+    private ComboListenner comboboxlistenner;
+    private JCheckBox checkBox;
+    private JCheckboxListenner checkboxlistenner;
+    private Boolean iajoue;
+    
+
+
+    String couleurs[] ={"Classique","Menthe","Eté"};
 
     public Swing2048(Jeu _jeu) {
         jeu = _jeu;
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(jeu.getSize() * PIXEL_PER_SQUARE, jeu.getSize() * PIXEL_PER_SQUARE);
-        tabC = new JLabel[jeu.getSize()][jeu.getSize()];
+        // obtention des dimensions de l'écran de l'utilisateur
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int height = (int) screenSize.getHeight()/2;
+        int width = (int) screenSize.getWidth()/2;
 
-        JPanel contentPane = new JPanel(new GridLayout(jeu.getSize(), jeu.getSize()));
+        //fenetre principale 
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setSize(width,height); 
+        this.setName("2048 Fares Tim");
+        this.setFocusable(true);
+        
+        
+        
+        int taille = jeu.getSize();
+        
+        // setup du canva
+        dessin =new Canva(_jeu);
+        dessin.setFocusable(false);
+        System.out.println(jeu.getGrille());
+        
+        
+        //bouton sauvegarde
+        sauvegarde = new JButton("Sauvegarder");
+        sauvegarde.setFocusable(false);
 
-        for (int i = 0; i < jeu.getSize(); i++) {
-            for (int j = 0; j < jeu.getSize(); j++) {
-                Border border = BorderFactory.createLineBorder(Color.darkGray, 5);
-                tabC[i][j] = new JLabel();
-                tabC[i][j].setBorder(border);
-                tabC[i][j].setHorizontalAlignment(SwingConstants.CENTER);
+        //bouton charger
+        charger = new JButton("Charger");
+        charger.setFocusable(false);
 
-                contentPane.add(tabC[i][j]);
+        //list de couleurs pour le jeu
+        comboBox = new JComboBox(couleurs);
+        comboBox.setFocusable(false);
 
-            }
-        }
-        setContentPane(contentPane);
+        // Lancer le monteCarlo
+        checkBox = new JCheckBox("Lancer IA");
+        checkBox.setFocusable(false);
+
+
+        //Layout et panel fils
+        BorderLayout b = new BorderLayout();
+        JPanel pprincipale = new JPanel(b);
+        JPanel menusud = new JPanel(new FlowLayout());
+        menusud.setFocusable(false);
+        pprincipale.setFocusable(false);
+
+        // Ajout au  panel
+        menusud.add(new JLabel("ICI C LE MENU"));
+        menusud.add(sauvegarde);
+        menusud.add(charger);
+        menusud.add(comboBox);
+        menusud.add(checkBox);
+        pprincipale.add(dessin,BorderLayout.CENTER);
+        pprincipale.add(menusud,BorderLayout.SOUTH);
+        
+
+        //Listenner des composants
+         comboboxlistenner = new ComboListenner(comboBox,dessin);
+         comboBox.addActionListener(comboboxlistenner);
+         checkboxlistenner = new JCheckboxListenner(checkBox);
+         checkBox.addActionListener(checkboxlistenner);
+         savelistenener = new JSave();
+         sauvegarde.addActionListener(savelistenener);
+         loadlistenner = new JLoad();
+         charger.addActionListener(loadlistenner);
+
+
+       // Frame de base
+        this.setContentPane(pprincipale);
+        this.setVisible(true);
         ajouterEcouteurClavier();
         rafraichir();
+        
 
     }
 
@@ -56,25 +123,8 @@ public class Swing2048 extends JFrame implements Observer {
         SwingUtilities.invokeLater(new Runnable() { // demande au processus graphique de réaliser le traitement
             @Override
             public void run() {
-                for (int i = 0; i < jeu.getSize(); i++) {
-                    for (int j = 0; j < jeu.getSize(); j++) {
-                        Case2D c = null;
-                        try {
-                            c = jeu.getCase(Coord2D.getInstance(i, j, jeu.getGrille()));
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-                        if (c == null) {
-
-                            tabC[i][j].setText("");
-
-                        } else {
-                            tabC[i][j].setText(c.getValeur() + "");
-                        }
-
-                    }
-                }
+             dessin.repaint();
+             //System.out.println("repeinture");
             }
         });
 
@@ -126,6 +176,13 @@ public class Swing2048 extends JFrame implements Observer {
                 }
             }
         });
+    }
+
+
+    // pour obtenir dans nos listenner de composant l'état actuel du 2048
+    public void setCanva(Canva c){
+        this.dessin = c;
+        comboboxlistenner.setJeu(c);
     }
 
     @Override
