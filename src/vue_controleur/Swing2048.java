@@ -1,12 +1,15 @@
 package vue_controleur;
 
-import modele.Direction;
 import modele.Jeu;
 import modele.Case.Case2D;
 import modele.Coord.Coord2D;
+import modele.Direction.Direction2D;
 import modele.Grille.Grille2D;
 import util.Serializer;
-import vue_controleur.vue_Listenner.*;
+import vue_controleur.vue_Listenner.ComboListenner;
+import vue_controleur.vue_Listenner.JCheckboxListenner;
+import vue_controleur.vue_Listenner.JLoad;
+import vue_controleur.vue_Listenner.JSave;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -143,16 +146,16 @@ public class Swing2048 extends JFrame implements Observer {
             public void keyPressed(KeyEvent e) {
                 switch (e.getKeyCode()) { // on regarde quelle touche a été pressée
                     case KeyEvent.VK_LEFT:
-                        jeu.move(Direction.gauche);
+                        jeu.move(Direction2D.gauche);
                         break;
                     case KeyEvent.VK_RIGHT:
-                        jeu.move(Direction.droite);
+                        jeu.move(Direction2D.droite);
                         break;
                     case KeyEvent.VK_DOWN:
-                        jeu.move(Direction.bas);
+                        jeu.move(Direction2D.bas);
                         break;
                     case KeyEvent.VK_UP:
-                        jeu.move(Direction.haut);
+                        jeu.move(Direction2D.haut);
                         break;
                     case KeyEvent.VK_S:
                         try {

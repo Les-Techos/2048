@@ -12,12 +12,13 @@ import java.util.concurrent.ThreadPoolExecutor;
 import modele.Case.Case2D;
 import modele.Coord.Coord;
 import modele.Coord.Coord2D;
+import modele.Direction.Direction2D;
 import modele.Grille.Grille2D;
 
 public class Jeu extends Observable implements AutoCloseable, Observer {
 
     int size;
-    private Grille2D g;
+    protected Grille2D g;
     private static Random rnd = new Random();
 
     Semaphore s = new Semaphore(1);
@@ -91,7 +92,7 @@ public class Jeu extends Observable implements AutoCloseable, Observer {
 
     }
 
-    public void move(Direction d) {
+    public void move(Direction2D d) {
         executor.submit(() -> {
             try {
                 s.acquire();
