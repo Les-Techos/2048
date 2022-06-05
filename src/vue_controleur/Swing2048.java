@@ -4,6 +4,8 @@ import modele.Direction;
 import modele.Jeu;
 import modele.Case.Case2D;
 import modele.Coord.Coord2D;
+import modele.Grille.Grille2D;
+import util.Serializer;
 import vue_controleur.vue_Listenner.*;
 
 import javax.swing.*;
@@ -100,9 +102,9 @@ public class Swing2048 extends JFrame implements Observer {
          comboBox.addActionListener(comboboxlistenner);
          checkboxlistenner = new JCheckboxListenner(checkBox);
          checkBox.addActionListener(checkboxlistenner);
-         savelistenener = new JSave();
+         savelistenener = new JSave(jeu);
          sauvegarde.addActionListener(savelistenener);
-         loadlistenner = new JLoad();
+         loadlistenner = new JLoad(jeu);
          charger.addActionListener(loadlistenner);
 
 
@@ -183,6 +185,11 @@ public class Swing2048 extends JFrame implements Observer {
     public void setCanva(Canva c){
         this.dessin = c;
         comboboxlistenner.setJeu(c);
+    }
+
+    public void setJeu(Jeu j){
+        this.jeu = j;
+        loadlistenner.setJeu(j);
     }
 
     @Override
