@@ -2,6 +2,7 @@ package modele.Case;
 
 import java.io.Serializable;
 
+import modele.Joueur;
 import modele.Coord.Coord;
 import modele.Direction.Direction2D;
 import modele.Grille.Grille;
@@ -11,7 +12,7 @@ public abstract class Case implements Cloneable, Serializable {
     protected Coord coord;
     protected Grille g;
 
-    public Case(int _valeur, Coord _coord, Grille g) {
+    public Case(int _valeur, Coord _coord, Grille g,Joueur j) {
         valeur = _valeur;
         this.g = g;
         this.coord = _coord;

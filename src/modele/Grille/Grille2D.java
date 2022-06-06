@@ -2,6 +2,7 @@ package modele.Grille;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+import modele.Joueur;
 import modele.Case.Case2D;
 import modele.Coord.Coord;
 import modele.Coord.Coord2D;
@@ -9,9 +10,12 @@ import modele.Direction.Direction2D;
 
 public class Grille2D extends Grille {
 
-    public Grille2D(int _size) {
+    private Joueur j;
+
+    public Grille2D(int _size,Joueur j) {
         super(_size);
         max_case = new Case2D(0, null, this);
+        this.j= j;
     }
 
     @Override

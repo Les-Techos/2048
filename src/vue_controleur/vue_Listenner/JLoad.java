@@ -11,15 +11,16 @@ import javax.swing.filechooser.FileSystemView;
 import modele.Jeu;
 import modele.Grille.Grille2D;
 import util.Serializer;
+import util.IA.IAReady.Jeu_IA;
 import vue_controleur.Canva;
 
 
 public class JLoad implements ActionListener{
 
     private JFileChooser fileChooser;
-    private Jeu jeu;
+    private Jeu_IA jeu;
     
-    public JLoad(Jeu jeu_param) {
+    public JLoad(Jeu_IA jeu_param) {
         this.jeu = jeu_param;
     }
     
@@ -43,7 +44,7 @@ public class JLoad implements ActionListener{
         
     }
 
-    public void setJeu(Jeu j) {
+    public void setJeu(Jeu_IA j) {
         this.jeu = j;
     }
     

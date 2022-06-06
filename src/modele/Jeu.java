@@ -20,6 +20,7 @@ public class Jeu extends Observable implements AutoCloseable, Observer {
     int size;
     protected Grille2D g;
     private static Random rnd = new Random();
+    protected Joueur j;
 
     Semaphore s = new Semaphore(1);
     public ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
@@ -41,9 +42,10 @@ public class Jeu extends Observable implements AutoCloseable, Observer {
 
     }
 
-    public Jeu(int size) {
+    public Jeu(int size,Joueur j) {
         cleaner.register(this, new CleaningAction(executor));
-        g = new Grille2D(size);
+        this.j = j;
+        g = new Grille2D(size,j);
         g.addObserver(this);
         this.size = size;
         rnd();

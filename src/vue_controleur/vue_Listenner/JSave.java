@@ -10,14 +10,15 @@ import javax.swing.filechooser.FileSystemView;
 
 import modele.Jeu;
 import util.Serializer;
+import util.IA.IAReady.Jeu_IA;
 
 
 public class JSave implements ActionListener{
     
     private JFileChooser fileChooser;
-    private Jeu jeu;
+    private Jeu_IA jeu;
     
-    public JSave(Jeu jeu_param) {
+    public JSave(Jeu_IA jeu_param) {
         this.jeu = jeu_param;
     }
 
@@ -45,7 +46,7 @@ public class JSave implements ActionListener{
         
     }
 
-    public void setJeu(Jeu j) {
+    public void setJeu(Jeu_IA j) {
         this.jeu = j;
     }
     

@@ -61,7 +61,8 @@ public class Canva extends JPanel {
                 }else{
                 g.setColor(Color.WHITE);
                 }
-                g.drawString(valeurcase+"",ecart / 2 +xcase/2 + posX + (xcase + ecart) * i ,ecart / 2 +ycase/2 + posY + (ycase + ecart) * j);
+                g.drawString(valeurcase+"",ecart / 2 +xcase/2 + posX + (xcase + ecart) * i - 5,ecart / 2 +ycase/2 + posY + (ycase + ecart) * j +5); 
+                // on pourrait utiliser la classe fontmetric pour bien centrer les numéro hors la police de base de drawstring fait des string de hauteur 5 et longeuers de 5 à l'infini
             }
             }
         }

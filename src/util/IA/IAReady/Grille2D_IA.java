@@ -2,6 +2,7 @@ package util.IA.IAReady;
 
 import java.util.ArrayList;
 
+import modele.Joueur;
 import modele.Direction.Direction2D;
 import modele.Grille.Grille;
 import modele.Grille.Grille2D;
@@ -10,8 +11,8 @@ import util.IA.IA_Agent;
 
 public class Grille2D_IA extends Grille2D implements IA_Agent {
 
-    public Grille2D_IA(int _size) {
-        super(_size);
+    public Grille2D_IA(int _size,Joueur j) {
+        super(_size, j);
     }
 
     @Override

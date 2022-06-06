@@ -1,20 +1,29 @@
 package modele;
+
 import java.io.Serializable;
-import java.sql.Time;
 
-public class Joueur implements Serializable  {
-    int meilleur_score;
-    Time min_time;
-    String nom;
-
-    public Joueur(int meilleur_score, Time min_time, String nom) {
-        this.meilleur_score = meilleur_score;
-        this.min_time = min_time;
+public class Joueur implements Serializable {
+    int score;String nom;
+    public Joueur(int score, String nom) {
+        this.score = score;
         this.nom = nom;
     }
 
+
+    public int getScore() {
+        return score;
+    }
+    
+    public String getNom() {
+        return nom;
+    }
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
     @Override
     public String toString() {
-        return "[nom : " + nom + "; min_time : " + min_time.toString() + "; meilleur_score : " + meilleur_score + "]";
-    }    
+        return "Joueur [nom=" + nom + ", score=" + score + "]";
+    }
+    
+    
 }

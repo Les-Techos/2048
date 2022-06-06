@@ -18,11 +18,13 @@ import util.IA.IAReady.Grille2D_IA;
 
 public class Main_test {
     public static void main(String args[]) throws InterruptedException {
+        
         long start = System.currentTimeMillis();
+        Joueur j = new Joueur("Ratio");
 
         MC_IA ia = new MC_IA(50, 2); // Tu peux laisser ces paramètres ils sont optimaux
 
-        Grille2D_IA g = new Grille2D_IA(4); // Initialisation de la grille
+        Grille2D_IA g = new Grille2D_IA(4,j); // Initialisation de la grille
         for (int i = 0; i < 4; i++) // Insertion des cases de départ
             g.insertRandomCase();
 

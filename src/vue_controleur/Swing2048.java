@@ -1,11 +1,13 @@
 package vue_controleur;
 
 import modele.Jeu;
+import modele.Joueur;
 import modele.Case.Case2D;
 import modele.Coord.Coord2D;
 import modele.Direction.Direction2D;
 import modele.Grille.Grille2D;
 import util.Serializer;
+import util.IA.IAReady.Jeu_IA;
 import vue_controleur.vue_Listenner.ComboListenner;
 import vue_controleur.vue_Listenner.JCheckboxListenner;
 import vue_controleur.vue_Listenner.JLoad;
@@ -26,9 +28,9 @@ import java.util.concurrent.atomic.AtomicReference;
 public class Swing2048 extends JFrame implements Observer {
     // tableau de cases : i, j -> case graphique
     static boolean iaplay;
-    private Jeu jeu;
+    private Jeu_IA jeu;
     private Canva dessin;
-    private JProgressBar progressBar;
+    private JLabel playerscore;
     private JButton sauvegarde;
     private JLoad loadlistenner;
     private JSave savelistenener;
@@ -37,14 +39,16 @@ public class Swing2048 extends JFrame implements Observer {
     private ComboListenner comboboxlistenner;
     private JCheckBox checkBox;
     private JCheckboxListenner checkboxlistenner;
-    private Boolean iajoue;
+    private Joueur joueur;
+    
     
 
 
     String couleurs[] ={"Classique","Menthe","Eté"};
 
-    public Swing2048(Jeu _jeu) {
+    public Swing2048(Jeu_IA _jeu) {
         jeu = _jeu;
+        joueur = new Joueur(0, "Fares");
         // obtention des dimensions de l'écran de l'utilisateur
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int height = (int) screenSize.getHeight()/2;
@@ -52,7 +56,8 @@ public class Swing2048 extends JFrame implements Observer {
 
         //fenetre principale 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(width,height); 
+        this.setSize(width,height);
+        this.setMinimumSize(new Dimension(400,400)); 
         this.setName("2048 Fares Tim");
         this.setFocusable(true);
         
@@ -64,7 +69,10 @@ public class Swing2048 extends JFrame implements Observer {
         dessin =new Canva(_jeu);
         dessin.setFocusable(false);
         System.out.println(jeu.getGrille());
-        
+
+        //Nom  + score du joueur
+        playerscore = new JLabel(joueur.getNom()+":"+joueur.getScore());
+        playerscore.setFocusable(false);
         
         //bouton sauvegarde
         sauvegarde = new JButton("Sauvegarder");
@@ -91,7 +99,7 @@ public class Swing2048 extends JFrame implements Observer {
         pprincipale.setFocusable(false);
 
         // Ajout au  panel
-        menusud.add(new JLabel("ICI C LE MENU"));
+        menusud.add(playerscore);
         menusud.add(sauvegarde);
         menusud.add(charger);
         menusud.add(comboBox);
@@ -103,7 +111,7 @@ public class Swing2048 extends JFrame implements Observer {
         //Listenner des composants
          comboboxlistenner = new ComboListenner(comboBox,dessin);
          comboBox.addActionListener(comboboxlistenner);
-         checkboxlistenner = new JCheckboxListenner(checkBox);
+         checkboxlistenner = new JCheckboxListenner(checkBox,jeu,joueur);
          checkBox.addActionListener(checkboxlistenner);
          savelistenener = new JSave(jeu);
          sauvegarde.addActionListener(savelistenener);
@@ -190,9 +198,10 @@ public class Swing2048 extends JFrame implements Observer {
         comboboxlistenner.setJeu(c);
     }
 
-    public void setJeu(Jeu j){
+    public void setJeu(Jeu_IA j){
         this.jeu = j;
         loadlistenner.setJeu(j);
+        savelistenener.setJeu(j);
     }
 
     @Override
