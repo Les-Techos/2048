@@ -36,11 +36,11 @@ public class MC_IA {
      * @param base_agent
      * @return
      */
-    public IA_Action getBestAction(IA_Agent base_agent){
+    public IA_Action getBestAction(IA_Node base_agent){
         IA_Action best_action = null;
         double max_score = -1; // On sauvegarde le maximum des moyennes des maximums
         for (IA_Action action : base_agent.getAvailableActions()) { // Pour chaque direction
-            IA_Agent g = (IA_Agent)base_agent.clone();
+            IA_Node g = (IA_Node)base_agent.clone();
             g.step(action);
 
             double score = getScore(g);
@@ -58,7 +58,7 @@ public class MC_IA {
      * @param base_agent
      * @return
      */
-    public double getScore(IA_Agent base_agent){
+    public double getScore(IA_Node base_agent){
         Random r = new Random();
         double tot_score = 0;
 
@@ -70,7 +70,7 @@ public class MC_IA {
                 public Double call() throws Exception {
                     double score = 0;
                     for (int i = 0; i < nb_tasks_per_thread; i++) {
-                        IA_Agent g = (IA_Agent)base_agent.clone();
+                        IA_Node g = (IA_Node)base_agent.clone();
                         int nb_steps = 0;
                         while (!(g.isFinished())) {
                             ArrayList<IA_Action> poss = g.getAvailableActions();

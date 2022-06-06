@@ -2,7 +2,7 @@ package util.IA;
 
 import java.util.ArrayList;
 
-public interface IA_Agent extends Cloneable{
+public interface IA_Node extends Cloneable{
     public ArrayList<IA_Action> getAvailableActions(); //Retourne les actions disponibles
 
     /**

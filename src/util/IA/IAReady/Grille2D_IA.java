@@ -7,9 +7,9 @@ import modele.Direction.Direction2D;
 import modele.Grille.Grille;
 import modele.Grille.Grille2D;
 import util.IA.IA_Action;
-import util.IA.IA_Agent;
+import util.IA.IA_Node;
 
-public class Grille2D_IA extends Grille2D implements IA_Agent {
+public class Grille2D_IA extends Grille2D implements IA_Node {
 
     public Grille2D_IA(int _size,Joueur j) {
         super(_size, j);
