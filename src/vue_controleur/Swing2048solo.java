@@ -25,13 +25,14 @@ import java.util.concurrent.atomic.AtomicReference;
 
 
 
-public class Swing2048 extends JFrame implements Observer {
+public class Swing2048solo extends JFrame implements Observer {
     // tableau de cases : i, j -> case graphique
-    static boolean iaplay;
+    
     private Jeu_IA jeu;
     private Canva dessin;
     private JLabel playerscore;
     private JButton sauvegarde;
+    private JButton multi;
     private JLoad loadlistenner;
     private JSave savelistenener;
     private JButton charger;
@@ -46,9 +47,9 @@ public class Swing2048 extends JFrame implements Observer {
 
     String couleurs[] ={"Classique","Menthe","Eté"};
 
-    public Swing2048(Jeu_IA _jeu) {
+    public Swing2048solo(Jeu_IA _jeu,Joueur j) {
         jeu = _jeu;
-        joueur = new Joueur(0, "Fares");
+        joueur = j;
         // obtention des dimensions de l'écran de l'utilisateur
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int height = (int) screenSize.getHeight()/2;
@@ -73,6 +74,7 @@ public class Swing2048 extends JFrame implements Observer {
         //Nom  + score du joueur
         playerscore = new JLabel(joueur.getNom()+":"+joueur.getScore());
         playerscore.setFocusable(false);
+
         
         //bouton sauvegarde
         sauvegarde = new JButton("Sauvegarder");
@@ -137,7 +139,7 @@ public class Swing2048 extends JFrame implements Observer {
             @Override
             public void run() {
              dessin.repaint();
-             //System.out.println("repeinture");
+             playerscore.setText(joueur.getNom()+":"+joueur.getScore());
             }
         });
 

@@ -13,8 +13,8 @@ public class Grille2D extends Grille {
     private Joueur j;
 
     public Grille2D(int _size,Joueur j) {
-        super(_size);
-        max_case = new Case2D(0, null, this);
+        super(_size,j);
+        max_case = new Case2D(0, null, this,j);
         this.j= j;
     }
 
@@ -68,9 +68,9 @@ public class Grille2D extends Grille {
         Case2D cs = null;
 
         if(rd == 9)
-            cs = new Case2D( 4, c, this);
+            cs = new Case2D( 4, c, this,j);
         else
-            cs = new Case2D( 2, c, this);
+            cs = new Case2D( 2, c, this,j);
         setCase(c, cs);
     }
 

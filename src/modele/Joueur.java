@@ -13,6 +13,10 @@ public class Joueur implements Serializable {
     public int getScore() {
         return score;
     }
+
+    public void setScore(int a) {
+        score = score + a;
+    }
     
     public String getNom() {
         return nom;

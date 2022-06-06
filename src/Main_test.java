@@ -11,6 +11,7 @@ import java.util.Random;
 import modele.Direction.Direction2D;
 import modele.Grille.Grille;
 import modele.Grille.Grille2D;
+import modele.Joueur;
 import util.Serializer;
 import util.IA.IA_Action;
 import util.IA.MC_IA;
@@ -19,8 +20,8 @@ import util.IA.IAReady.Grille2D_IA;
 public class Main_test {
     public static void main(String args[]) throws InterruptedException {
         
-        long start = System.currentTimeMillis();
-        Joueur j = new Joueur("Ratio");
+        
+        modele.Joueur j = new Joueur(0, "Ratio");
 
         MC_IA ia = new MC_IA(50, 2); // Tu peux laisser ces paramètres ils sont optimaux
 

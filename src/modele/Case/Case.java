@@ -11,11 +11,13 @@ public abstract class Case implements Cloneable, Serializable {
     protected int valeur;
     protected Coord coord;
     protected Grille g;
+    protected Joueur joueur;
 
     public Case(int _valeur, Coord _coord, Grille g,Joueur j) {
         valeur = _valeur;
         this.g = g;
         this.coord = _coord;
+        this.joueur = j;
     }
 
     @Override
@@ -29,6 +31,7 @@ public abstract class Case implements Cloneable, Serializable {
                 Coord neighbor_coord = neighbor.getCoord();
                 
                 setValeur(2 * valeur);
+                joueur.setScore(valeur);
 
                 g.rmCase(neighbor_coord);
 

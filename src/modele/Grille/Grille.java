@@ -20,14 +20,16 @@ public abstract class Grille extends Observable implements Cloneable, Serializab
     protected HashMap<Coord, Case> mp_coord_case = new HashMap<Coord, Case>();
     public static Random r = new Random();
     protected Case max_case = null;
+    protected Joueur joueur;
 
     int size = -1;
     int nbSlots = 0;
 
-    public Grille(int _size) {
+    public Grille(int _size, Joueur joueur) {
         this.size = _size;
         nbSlots = calculateNbSlots();
         checkSize();
+        this.joueur = joueur;
     }
 
     public Grille clone() {
