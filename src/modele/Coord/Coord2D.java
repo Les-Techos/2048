@@ -6,12 +6,26 @@ import modele.Grille.Grille2D;
 public class Coord2D extends Coord {
     private int x, y;
     
+    /**
+     * 
+     * @param x Ligne
+     * @param y Colonne
+     * @param g Grille
+     */
     private Coord2D(int x, int y, Grille2D g){
         this.x = x;
         this.y = y;
         this.g = g;
     }
     
+    /**
+     * Génère une coordonnées
+     * @param x Ligne
+     * @param y Colonne
+     * @param g Grille
+     * @return
+     * @throws IllegalArgumentException
+     */
     public static Coord2D getInstance(int x, int y, Grille2D g) throws IllegalArgumentException{
         Coord2D res = new Coord2D(x, y, g);
         boolean test = true;
@@ -29,6 +43,11 @@ public class Coord2D extends Coord {
         return new Coord2D(this.x, this.y, (Grille2D)this.g);
     }
     
+    /**
+     * Génère une coordonnée aléatoire dans relatif à la grille g
+     * @param g
+     * @return
+     */
     public static Coord2D rand(Grille2D g) {
         int row = r.nextInt()%g.getSize(), col = r.nextInt()%g.getSize();
         if(row <  0) row = -row; if(col < 0) col = -col;

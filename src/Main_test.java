@@ -23,8 +23,6 @@ public class Main_test {
         MC_IA ia = new MC_IA(50, 2); // Tu peux laisser ces paramètres ils sont optimaux
 
         Grille2D_IA g = new Grille2D_IA(4); // Initialisation de la grille
-        for (int i = 0; i < 4; i++) // Insertion des cases de départ
-            g.insertRandomCase();
 
         int step = 0;
 

@@ -7,10 +7,16 @@ import modele.Direction.Direction2D;
 import modele.Grille.Grille;
 
 public abstract class Case implements Cloneable, Serializable {
-    protected int valeur;
-    protected Coord coord;
-    protected Grille g;
+    protected int valeur; // Valeur de la case
+    protected Coord coord; // Coordonnées de la case
+    protected Grille g; // Grille auquel appartient la case
 
+    /**
+     * 
+     * @param _valeur Valeur de a case
+     * @param _coord Coordonnées de la case
+     * @param g Grille dans laquelle se trouve la case
+     */
     public Case(int _valeur, Coord _coord, Grille g) {
         valeur = _valeur;
         this.g = g;
@@ -20,6 +26,10 @@ public abstract class Case implements Cloneable, Serializable {
     @Override
     public abstract Case2D clone();
 
+    /**
+     * Déplace et fusionne la case dans la grille référencée
+     * @param d Direction vers laquelle déplacer
+     */
     public void move(Direction2D d) {
         Case neighbor = g.getVoisin(this, d); // Le voisin s'il existe
 

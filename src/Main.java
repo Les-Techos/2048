@@ -1,4 +1,5 @@
 import modele.Jeu;
+import util.IA.IAReady.Jeu_IA;
 import vue_controleur.Console2048;
 import vue_controleur.Swing2048;
 
@@ -19,7 +20,7 @@ public class Main {
 
     public static void mainSwing() {
 
-        Jeu jeu = new Jeu(5);
+        Jeu jeu = new Jeu_IA(5);
         Swing2048 vue = new Swing2048(jeu);
         jeu.addObserver(vue);
 

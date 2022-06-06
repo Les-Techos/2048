@@ -26,7 +26,10 @@ import java.util.concurrent.atomic.AtomicReference;
 public class Swing2048 extends JFrame implements Observer {
     // tableau de cases : i, j -> case graphique
     static boolean iaplay;
+    
     private Jeu jeu;
+
+
     private Canva dessin;
     private JProgressBar progressBar;
     private JButton sauvegarde;

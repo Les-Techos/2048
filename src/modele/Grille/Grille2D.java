@@ -11,7 +11,7 @@ public class Grille2D extends Grille {
 
     public Grille2D(int _size) {
         super(_size);
-        max_case = new Case2D(0, null, this);
+
     }
 
     @Override
