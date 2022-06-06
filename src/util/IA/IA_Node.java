@@ -29,4 +29,6 @@ public interface IA_Node extends Cloneable{
      * @return
      */
     public boolean isWinning();
+
+    public void applyAction(IA_Action act);
 }

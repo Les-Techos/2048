@@ -305,5 +305,7 @@ public abstract class Grille extends Observable implements Cloneable, Serializab
         if (!isfull())
             insertRandomCase();
 
+        setChanged();
+        notifyObservers();
     }
 }

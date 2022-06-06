@@ -8,6 +8,7 @@ public class Jeu_IA extends Jeu{
     public Jeu_IA(int size,Joueur j) {
         super(size, j);
         g = new Grille2D_IA(size, j);
+        g.addObserver(this);
     }
 
     

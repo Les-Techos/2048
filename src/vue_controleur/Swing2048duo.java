@@ -43,8 +43,10 @@ public class Swing2048duo extends JFrame implements Observer {
     private JComboBox comboBox2;
     private ComboListenner comboboxlistenner1;
     private ComboListenner comboboxlistenner2;
-    private JCheckBox checkBox;
-    private JCheckboxListenner checkboxlistenner;
+    private JCheckBox checkBox1;
+    private JCheckboxListenner checkboxlistenner1;
+    private JCheckBox checkBox2;
+    private JCheckboxListenner checkboxlistenner2;
     private Joueur joueur1;
     private Joueur joueur2;
     
@@ -53,7 +55,6 @@ public class Swing2048duo extends JFrame implements Observer {
 
     String couleurs1[] ={"Classique","Menthe","Eté"};
     String couleurs2[] ={"Classique","Menthe","Eté"};
-    private JCheckboxListenner checkboxlistenner2;
     private JSave savelistenener2;
     private JButton sauvegarde2;
     private JLoad loadlistenner2;
@@ -117,8 +118,11 @@ public class Swing2048duo extends JFrame implements Observer {
         
 
         // Lancer le monteCarlo
-        checkBox = new JCheckBox("Lancer IA");
-        checkBox.setFocusable(false);
+        checkBox1 = new JCheckBox("Lancer IA");
+        checkBox1.setFocusable(false);
+
+        checkBox2 = new JCheckBox("Lancer IA");
+        checkBox2.setFocusable(false);
 
 
         //Layout et panel fils
@@ -142,12 +146,14 @@ public class Swing2048duo extends JFrame implements Observer {
         menusud1.add(sauvegarde);
         menusud1.add(charger);
         menusud1.add(comboBox1);
+        menusud1.add(checkBox1);
         
         // menusud.add(checkBox);
         menusud2.add(comboBox2);
         menusud2.add(sauvegarde2);
         menusud2.add(charger2);
         menusud2.add(playerscore2);
+        menusud2.add(checkBox2);
         
         pprincipale.add(ecrancinde,BorderLayout.CENTER);
         pprincipale.add(menuglobal,BorderLayout.SOUTH);
@@ -159,8 +165,8 @@ public class Swing2048duo extends JFrame implements Observer {
         //Listenner des composants j1
          comboboxlistenner1 = new ComboListenner(comboBox1,dessin1);
          comboBox1.addActionListener(comboboxlistenner1);
-         checkboxlistenner = new JCheckboxListenner(checkBox,jeu1,joueur1);
-         checkBox.addActionListener(checkboxlistenner);
+         checkboxlistenner1 = new JCheckboxListenner(checkBox1,jeu1,joueur1);
+         checkBox1.addActionListener(checkboxlistenner1);
          savelistenener = new JSave(jeu1);
          sauvegarde.addActionListener(savelistenener);
          loadlistenner = new JLoad(jeu1);
@@ -170,8 +176,8 @@ public class Swing2048duo extends JFrame implements Observer {
        // listenner des composants j2
        comboboxlistenner2 = new ComboListenner(comboBox2,dessin2);
        comboBox2.addActionListener(comboboxlistenner2);
-       checkboxlistenner2 = new JCheckboxListenner(checkBox,jeu2,joueur2);
-       checkBox.addActionListener(checkboxlistenner2);
+       checkboxlistenner2 = new JCheckboxListenner(checkBox2,jeu2,joueur2);
+       checkBox2.addActionListener(checkboxlistenner2);
        savelistenener2 = new JSave(jeu2);
        sauvegarde2.addActionListener(savelistenener2);
        loadlistenner2 = new JLoad(jeu2);

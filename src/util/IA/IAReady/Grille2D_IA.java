@@ -50,4 +50,9 @@ public class Grille2D_IA extends Grille2D implements IA_Node {
         insertRandomCase();
     }
 
+    @Override
+    public void applyAction(IA_Action act) {
+        move((Direction2D) act.getAction());        
+    }
+
 }
