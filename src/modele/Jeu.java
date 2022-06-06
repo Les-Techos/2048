@@ -17,17 +17,16 @@ import modele.Grille.Grille2D;
 
 public class Jeu extends Observable implements AutoCloseable, Observer {
 
-    int size;
-    protected Grille2D g;
+    int size; // Taille
+    protected Grille2D g; // Grille de jeu
     private static Random rnd = new Random();
     protected Joueur joueur;
 
     Semaphore s = new Semaphore(1);
-    public ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
+    public ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(2); // Pool d'exécution
+    public final static Cleaner cleaner = Cleaner.create(); // Cleaner de la pool d'exécution
 
-    public final static Cleaner cleaner = Cleaner.create();
-
-    private static class CleaningAction implements Runnable {
+    private static class CleaningAction implements Runnable { // Action à effectuer pour clean les threads
         ArrayList<ThreadPoolExecutor> l = new ArrayList<ThreadPoolExecutor>();
 
         CleaningAction(ThreadPoolExecutor ls) {
@@ -59,6 +58,9 @@ public class Jeu extends Observable implements AutoCloseable, Observer {
         return (Case2D) g.getCase(c);
     }
 
+    /**
+     * Insère des cases aléatoirement dans la grille
+     */
     public void rnd() {
         executor.execute(() -> {
                 int r;
@@ -94,6 +96,10 @@ public class Jeu extends Observable implements AutoCloseable, Observer {
 
     }
 
+    /**
+     * Déplace les cases vers la direction d
+     * @param d
+     */
     public void move(Direction2D d) {
         executor.submit(() -> {
             try {

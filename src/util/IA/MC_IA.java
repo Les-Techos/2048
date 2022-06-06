@@ -8,13 +8,21 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 
+/**
+ * IA Montécarlo, reprenant le célèbre algorithme de résolution
+ */
 public class MC_IA {
 
-    protected int nb_tries = 0;
-    protected int nb_threads;
-    protected int nb_tasks_per_thread;
-    protected ThreadPoolExecutor tpe;
+    protected int nb_tries = 0; // Nombre d'essais
+    protected int nb_threads; // Nombre de threads
+    protected int nb_tasks_per_thread; // Nombre de tâches par thread
+    protected ThreadPoolExecutor tpe; // pool d'exécution
 
+    /**
+     * 
+     * @param nb_tries Nombre d'essais par branche
+     * @param nb_threads Nombre de thread alloués
+     */
     public MC_IA(int nb_tries, int nb_threads) {
         this.nb_tries = nb_tries;
         this.nb_threads = nb_threads;
@@ -23,6 +31,11 @@ public class MC_IA {
         tpe = (ThreadPoolExecutor) Executors.newFixedThreadPool(nb_threads);
     }
 
+    /**
+     * Retourne la meilleure action pour le noeud passé en paramètre
+     * @param base_agent
+     * @return
+     */
     public IA_Action getBestAction(IA_Agent base_agent){
         IA_Action best_action = null;
         double max_score = -1; // On sauvegarde le maximum des moyennes des maximums
@@ -40,6 +53,11 @@ public class MC_IA {
         return best_action;
     }
 
+    /**
+     * Calcul un score pour le noeud base_agent
+     * @param base_agent
+     * @return
+     */
     public double getScore(IA_Agent base_agent){
         Random r = new Random();
         double tot_score = 0;
@@ -77,6 +95,9 @@ public class MC_IA {
         return tot_score/((double)nb_tries);
     }
 
+    /**
+     * éteint la pool d'exécution
+     */
     public void stop(){
         tpe.shutdown();
     }
