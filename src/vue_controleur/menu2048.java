@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import vue_controleur.listennermenu.Multilistenner;
 import vue_controleur.listennermenu.Singlelistenner;
 
 public class menu2048 extends JFrame {
@@ -34,6 +35,11 @@ public class menu2048 extends JFrame {
         single = new JButton("solo");
         multi = new JButton("multi");
         ladder = new JButton("highscore");
+
+        Singlelistenner singlelistenner = new Singlelistenner(this);
+        single.addActionListener(singlelistenner);
+        Multilistenner multilistenner = new Multilistenner(this);
+        multi.addActionListener(multilistenner); 
 
         fenetreprincipal.setLayout(new GridLayout(3,1));
         fenetreprincipal.add(single);
