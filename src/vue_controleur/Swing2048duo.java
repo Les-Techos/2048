@@ -52,7 +52,12 @@ public class Swing2048duo extends JFrame implements Observer {
 
 
     String couleurs1[] ={"Classique","Menthe","Eté"};
-    String couleurs2[] ={"Eté","Menthe","Classique"};
+    String couleurs2[] ={"Classique","Menthe","Eté"};
+    private JCheckboxListenner checkboxlistenner2;
+    private JSave savelistenener2;
+    private JButton sauvegarde2;
+    private JLoad loadlistenner2;
+    private JButton charger2;
     
 
     public Swing2048duo(Jeu_IA _jeu1,Jeu_IA _jeu2,Joueur j1,Joueur j2) {
@@ -92,11 +97,15 @@ public class Swing2048duo extends JFrame implements Observer {
 
         
         //bouton sauvegarde
-        sauvegarde = new JButton("Sauvegarder");
+        sauvegarde = new JButton("Sauvegarder J1");
         sauvegarde.setFocusable(false);
+        sauvegarde2 = new JButton("Sauvegarder J2");
+        sauvegarde2.setFocusable(false);
 
         //bouton charger
-        charger = new JButton("Charger");
+        charger = new JButton("Charger J1");
+        charger.setFocusable(false);
+        charger2 = new JButton("Charger J2");
         charger.setFocusable(false);
 
         //list de couleurs pour le jeu
@@ -105,7 +114,7 @@ public class Swing2048duo extends JFrame implements Observer {
         comboBox2 = new JComboBox(couleurs2);
         comboBox2.setFocusable(false);
         // on le mets sur la deux pour avoir une couleur différente au début
-        comboBox2.setSelectedIndex(1);
+        
 
         // Lancer le monteCarlo
         checkBox = new JCheckBox("Lancer IA");
@@ -116,45 +125,66 @@ public class Swing2048duo extends JFrame implements Observer {
         BorderLayout b = new BorderLayout();
         JPanel pprincipale = new JPanel(b);
         JPanel ecrancinde = new JPanel(new GridLayout(1,2));
-        JPanel menusud = new JPanel(new FlowLayout());
-        menusud.setFocusable(false);
+        JPanel menuglobal = new JPanel(new GridLayout(1,2));
+        JPanel menusud1 = new JPanel(new FlowLayout());
+        JPanel menusud2 = new JPanel(new FlowLayout());
+        menusud1.setFocusable(false);
+        menusud2.setFocusable(false);
+        menuglobal.setFocusable(false);
         pprincipale.setFocusable(false);
         ecrancinde.setFocusable(false);
         
         // Ajout au  panel
         ecrancinde.add(dessin1);
         ecrancinde.add(dessin2);
-        menusud.add(playerscore1);
-        menusud.add(sauvegarde);
-        menusud.add(charger);
-        menusud.add(comboBox1);
-        menusud.add(checkBox);
-        menusud.add(comboBox2);
-        menusud.add(playerscore2);
-        pprincipale.add(ecrancinde,BorderLayout.CENTER);
-        pprincipale.add(menusud,BorderLayout.SOUTH);
-        
 
-        //Listenner des composants
+        menusud1.add(playerscore1);
+        menusud1.add(sauvegarde);
+        menusud1.add(charger);
+        menusud1.add(comboBox1);
+        
+        // menusud.add(checkBox);
+        menusud2.add(comboBox2);
+        menusud2.add(sauvegarde2);
+        menusud2.add(charger2);
+        menusud2.add(playerscore2);
+        
+        pprincipale.add(ecrancinde,BorderLayout.CENTER);
+        pprincipale.add(menuglobal,BorderLayout.SOUTH);
+        
+        //ajout des deux sous menus dans le grand menu
+        menuglobal.add(menusud1);
+        menuglobal.add(menusud2);
+
+        //Listenner des composants j1
          comboboxlistenner1 = new ComboListenner(comboBox1,dessin1);
          comboBox1.addActionListener(comboboxlistenner1);
-         comboboxlistenner2 = new ComboListenner(comboBox2,dessin2);
-         comboBox2.addActionListener(comboboxlistenner2);
          checkboxlistenner = new JCheckboxListenner(checkBox,jeu1,joueur1);
          checkBox.addActionListener(checkboxlistenner);
          savelistenener = new JSave(jeu1);
          sauvegarde.addActionListener(savelistenener);
          loadlistenner = new JLoad(jeu1);
          charger.addActionListener(loadlistenner);
+         comboBox2.setSelectedIndex(1);
 
-
+       // listenner des composants j2
+       comboboxlistenner2 = new ComboListenner(comboBox2,dessin2);
+       comboBox2.addActionListener(comboboxlistenner2);
+       checkboxlistenner2 = new JCheckboxListenner(checkBox,jeu2,joueur2);
+       checkBox.addActionListener(checkboxlistenner2);
+       savelistenener2 = new JSave(jeu2);
+       sauvegarde2.addActionListener(savelistenener2);
+       loadlistenner2 = new JLoad(jeu2);
+       charger2.addActionListener(loadlistenner2);
+       comboBox2.setSelectedIndex(1);
+       
+       
        // Frame de base
         this.setContentPane(pprincipale);
         this.setVisible(true);
         ajouterEcouteurClavier();
         rafraichir();
         
-
     }
 
     /**
