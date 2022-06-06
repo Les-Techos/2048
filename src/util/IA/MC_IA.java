@@ -88,10 +88,7 @@ public class MC_IA {
         for(int thread_id = 0; thread_id < nb_threads; thread_id++)
             try {
                 tot_score+=results.get(thread_id).get();
-            } catch (InterruptedException | ExecutionException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            } catch (InterruptedException | ExecutionException e) {}
         return tot_score/((double)nb_tries);
     }
 

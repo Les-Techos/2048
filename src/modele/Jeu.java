@@ -108,7 +108,7 @@ public class Jeu extends Observable implements AutoCloseable, Observer {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-                if (!(g.iswrecked() || g.iswinning())) {
+                if (!g.iswrecked()) {
                     g.move(d);
                     setChanged();
                     notifyObservers();

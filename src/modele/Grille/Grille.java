@@ -29,7 +29,6 @@ public abstract class Grille extends Observable implements Cloneable, Serializab
      * 
      * @param _size taille de grille
      */
-
     public Grille(int _size, Joueur joueur) {
 
         this.size = _size;
@@ -42,7 +41,7 @@ public abstract class Grille extends Observable implements Cloneable, Serializab
 
         Grille clone = null;
         try {
-            clone = this.getClass().getDeclaredConstructor(int.class).newInstance(size);
+            clone = this.getClass().getDeclaredConstructor(int.class, Joueur.class).newInstance(size, joueur);
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -57,7 +56,7 @@ public abstract class Grille extends Observable implements Cloneable, Serializab
             e.printStackTrace();
         }
 
-        clone.deleteObservers();
+        //clone.deleteObservers();
 
         Iterator<Entry<Coord, Case>> it = mp_coord_case.entrySet().iterator();
         Entry<Coord, Case> ent;

@@ -28,26 +28,25 @@ public class JCheckboxListenner implements ActionListener {
         // TODO Auto-generated method stub
         
         
-        if(checkBox.isSelected()){
+        if(checkBox.isSelected() && t == null){
 
         t = new Thread(new Runnable() {
             @Override
             public void run() {
                 // TODO Auto-generated method stub
-                MC_IA ia = new MC_IA(50, 2); // Tu peux laisser ces paramètres ils sont optimaux
+                MC_IA ia = new MC_IA(50, 6); // Tu peux laisser ces paramètres ils sont optimaux
 
                 g = new Grille2D_IA(jeu.getSize(),j);// Initialisation de la grille
-                g = (Grille2D_IA) jeu.getGrille().clone();
+                g = (Grille2D_IA) jeu.getGrille();
                 int step = 0;
         
                 while (!g.isFinished()) { // Tant que notre noeud courant n'est pas terminé
                 
                 Direction2D act = (Direction2D) ia.getBestAction(g).getAction(); // On récupère la meilleur action à effectuer
-                g.move(act); // On applique la modif
-                jeu.move(act);
+                jeu.move(act); // On applique la modif
         
-                //System.out.println("Etape n° " + step++ + " / " + act); // affiche l'action effectuée
-                //System.out.println(g); // affiche la grille
+                System.out.println("Etape n° " + step++ + " / " + act); // affiche l'action effectuée
+                System.out.println(g); // affiche la grille
             }
             ia.stop();
             System.out.println("l'ia a fini elle a trouvé en " + step + "coups");
