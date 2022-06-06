@@ -23,9 +23,11 @@ public class Main_test {
         
         modele.Joueur j = new Joueur(0, "Ratio");
 
-        MC_IA ia = new MC_IA(50, 2); // Tu peux laisser ces paramètres ils sont optimaux
+        
 
         Grille2D_IA g = new Grille2D_IA(4,j); // Initialisation de la grille
+        MC_IA ia = new MC_IA(50, 2, g); // Tu peux laisser ces paramètres ils sont optimaux
+
         for (int i = 0; i < 4; i++) // Insertion des cases de départ
             g.insertRandomCase();
 
@@ -33,7 +35,7 @@ public class Main_test {
 
         while (!g.isFinished()) { // Tant que notre noeud courant n'est pas terminé
 
-            Direction2D act = (Direction2D) ia.getBestAction(g).getAction(); // On récupère la meilleur action à effectuer
+            Direction2D act = (Direction2D) ia.getBestAction().getAction(); // On récupère la meilleur action à effectuer
             g.move(act); // On applique la modif
 
             System.out.println("Etape n° " + step++ + " / " + act); // affiche l'action effectuée

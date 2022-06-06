@@ -15,7 +15,6 @@ public class JCheckboxListenner implements ActionListener {
     private JCheckBox checkBox;
     private Jeu_IA jeu;
     private Thread t;
-    private Grille2D_IA g; 
     private Joueur j;
 
     public JCheckboxListenner(JCheckBox component,Jeu_IA jeu2, Joueur j) {
@@ -34,10 +33,10 @@ public class JCheckboxListenner implements ActionListener {
             @Override
             public void run() {
                 // TODO Auto-generated method stub
-                MC_IA ia = new MC_IA(50, 6); // Tu peux laisser ces paramètres ils sont optimaux
+                
 
-                g = new Grille2D_IA(jeu.getSize(),j);// Initialisation de la grille
-                g = (Grille2D_IA) jeu.getGrille();
+                Grille2D_IA g = (Grille2D_IA) jeu.getGrille();
+                MC_IA ia = new MC_IA(50, 6, g); // Tu peux laisser ces paramètres ils sont optimaux
                 int step = 0;
         
                 while (!g.isFinished()) { // Tant que notre noeud courant n'est pas terminé

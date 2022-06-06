@@ -16,6 +16,7 @@ public class MC_IA {
     protected int nb_tries = 0; // Nombre d'essais
     protected int nb_threads; // Nombre de threads
     protected int nb_tasks_per_thread; // Nombre de tâches par thread
+    protected IA_Node node;
     protected ThreadPoolExecutor tpe; // pool d'exécution
 
     /**
@@ -23,10 +24,11 @@ public class MC_IA {
      * @param nb_tries Nombre d'essais par branche
      * @param nb_threads Nombre de thread alloués
      */
-    public MC_IA(int nb_tries, int nb_threads) {
+    public MC_IA(int nb_tries, int nb_threads, IA_Node node) {
         this.nb_tries = nb_tries;
         this.nb_threads = nb_threads;
         nb_tasks_per_thread = nb_tries/nb_threads;
+        this.node = node;
         
         tpe = (ThreadPoolExecutor) Executors.newFixedThreadPool(nb_threads);
     }
@@ -51,6 +53,10 @@ public class MC_IA {
             }
         }
         return best_action;
+    }
+
+    public IA_Action getBestAction(){
+        return getBestAction(node);
     }
 
     /**
@@ -90,6 +96,10 @@ public class MC_IA {
                 tot_score+=results.get(thread_id).get();
             } catch (InterruptedException | ExecutionException e) {}
         return tot_score/((double)nb_tries);
+    }
+
+    public double getScore(){
+        return getScore(node);
     }
 
     /**
