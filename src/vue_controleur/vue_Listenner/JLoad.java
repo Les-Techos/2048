@@ -30,7 +30,7 @@ public class JLoad implements ActionListener{
         // TODO Auto-generated method stub
         fileChooser = new JFileChooser();
         File dossierbase = new File(".");
-        File dossiersave = new File(dossierbase.getPath(),"2048/src/sauvegarde");
+        File dossiersave = new File(dossierbase.getPath(),"/src/sauvegarde");
         fileChooser.setCurrentDirectory(dossiersave);
         fileChooser.showOpenDialog(null);
         String fileload =  fileChooser.getSelectedFile().getAbsolutePath();

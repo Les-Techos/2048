@@ -29,7 +29,7 @@ public class JSave implements ActionListener{
         fileChooser.setApproveButtonText("SAVE");
         
         File dossierbase = new File(".");
-        File dossiersave = new File(dossierbase.getPath(),"2048/src/sauvegarde");
+        File dossiersave = new File(dossierbase.getPath(),"/src/sauvegarde");
         System.out.println(dossiersave.getPath());
         fileChooser.setCurrentDirectory(dossiersave);
         fileChooser.showOpenDialog(null);
