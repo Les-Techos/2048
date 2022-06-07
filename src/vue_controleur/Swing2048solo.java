@@ -214,15 +214,13 @@ public class Swing2048solo extends JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        
+        rafraichir();
         if(jeu.getGrille().iswrecked() && jeu.getGrille().isfull()){        
             System.out.print("LOSER");
             JOptionPane.showMessageDialog(null, "Tu as Perdu", "LOSE", JOptionPane.ERROR_MESSAGE);
         }else if(jeu.getGrille().iswinning()){
             JOptionPane.showMessageDialog(null, "Tu as gagner", "Win", JOptionPane.ERROR_MESSAGE);
             System.out.print("Bien ouej");
-        }else{
-            rafraichir();
         }
     }
 }

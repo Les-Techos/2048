@@ -36,7 +36,7 @@ public class Grille2D_IA extends Grille2D implements IA_Node {
 
     @Override
     public boolean isFinished() {
-        return iswrecked();
+        return iswrecked() || iswinning();
     }
 
     @Override

@@ -21,8 +21,7 @@ public class Singlelistenner implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         // TODO Auto-generated method stub
         String s1 = (String)JOptionPane.showInputDialog(null, "Rentrer le nom de joueur","Joueur choix nom",JOptionPane.PLAIN_MESSAGE);
-        System.out.println(s1);
-        if (s1!=null || s1=="") {
+    if (s1!=null || s1!="") {
         Joueur joueur = new Joueur(0,s1);
         Jeu_IA jeu = new Jeu_IA(4,joueur);
         Swing2048solo vue = new Swing2048solo(jeu,joueur);
