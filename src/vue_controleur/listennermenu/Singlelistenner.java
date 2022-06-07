@@ -20,14 +20,17 @@ public class Singlelistenner implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         // TODO Auto-generated method stub
-        String s = (String)JOptionPane.showInputDialog(null, "Rentrer le nom de joueur","Joueur choix nom",JOptionPane.PLAIN_MESSAGE);
-        System.out.println(s);
-        Joueur joueur = new Joueur(0,s);
+        String s1 = (String)JOptionPane.showInputDialog(null, "Rentrer le nom de joueur","Joueur choix nom",JOptionPane.PLAIN_MESSAGE);
+        System.out.println(s1);
+        if (s1!=null || s1=="") {
+        Joueur joueur = new Joueur(0,s1);
         Jeu_IA jeu = new Jeu_IA(4,joueur);
         Swing2048solo vue = new Swing2048solo(jeu,joueur);
         vue.setVisible(true);
         jeu.addObserver(vue);
         frame.setVisible(false);
-    }
+    }else{
+        frame.setVisible(true);
+    }}
 
 }

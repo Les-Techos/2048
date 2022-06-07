@@ -23,11 +23,9 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.atomic.AtomicReference;
 
-
-
 public class Swing2048duo extends JFrame implements Observer {
     // tableau de cases : i, j -> case graphique
-    
+
     private Jeu_IA jeu1;
     private Jeu_IA jeu2;
     private Canva dessin1;
@@ -58,63 +56,58 @@ public class Swing2048duo extends JFrame implements Observer {
     private JButton sauvegarde2;
     private JLoad loadlistenner2;
     private JButton charger2;
-    
 
-    public Swing2048duo(Jeu_IA _jeu1,Jeu_IA _jeu2,Joueur j1,Joueur j2) {
+    public Swing2048duo(Jeu_IA _jeu1, Jeu_IA _jeu2, Joueur j1, Joueur j2) {
         jeu1 = _jeu1;
         jeu2 = _jeu2;
         joueur1 = j1;
         joueur2 = j2;
         // obtention des dimensions de l'écran de l'utilisateur
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int height = (int) screenSize.getHeight()/2;
-        int width = (int) screenSize.getWidth()/2;
+        int height = (int) screenSize.getHeight() / 2;
+        int width = (int) screenSize.getWidth() / 2;
 
-        //fenetre principale 
+        // fenetre principale
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(width,height);
-        this.setMinimumSize(new Dimension(400,400)); 
+        this.setSize(width, height);
+        this.setMinimumSize(new Dimension(400, 400));
         this.setName("2048 Fares Tim");
         this.setFocusable(true);
-        
-        
-        
+
         int taille = jeu1.getSize();
-        
+
         // setup du canva
         dessin1 = new Canva(jeu1);
         dessin1.setFocusable(false);
-        dessin2 =new Canva(jeu2);
+        dessin2 = new Canva(jeu2);
         dessin2.setFocusable(false);
         System.out.println(jeu1.getGrille());
         System.out.println(jeu2.getGrille());
 
-        //Nom  + score du joueur
-        playerscore1 = new JLabel(joueur1.getNom()+":"+joueur1.getScore());
+        // Nom + score du joueur
+        playerscore1 = new JLabel(joueur1.getNom() + ":" + joueur1.getScore());
         playerscore1.setFocusable(false);
-        playerscore2 = new JLabel(joueur2.getNom()+":"+joueur2.getScore());
+        playerscore2 = new JLabel(joueur2.getNom() + ":" + joueur2.getScore());
         playerscore2.setFocusable(false);
 
-        
-        //bouton sauvegarde
+        // bouton sauvegarde
         sauvegarde = new JButton("Sauvegarder J1");
         sauvegarde.setFocusable(false);
         sauvegarde2 = new JButton("Sauvegarder J2");
         sauvegarde2.setFocusable(false);
 
-        //bouton charger
+        // bouton charger
         charger = new JButton("Charger J1");
         charger.setFocusable(false);
         charger2 = new JButton("Charger J2");
         charger.setFocusable(false);
 
-        //list de couleurs pour le jeu
+        // list de couleurs pour le jeu
         comboBox1 = new JComboBox(couleurs1);
         comboBox1.setFocusable(false);
         comboBox2 = new JComboBox(couleurs2);
         comboBox2.setFocusable(false);
         // on le mets sur la deux pour avoir une couleur différente au début
-        
 
         // Lancer le monteCarlo
         checkBox1 = new JCheckBox("Lancer IA");
@@ -123,12 +116,11 @@ public class Swing2048duo extends JFrame implements Observer {
         checkBox2 = new JCheckBox("Lancer IA");
         checkBox2.setFocusable(false);
 
-
-        //Layout et panel fils
+        // Layout et panel fils
         BorderLayout b = new BorderLayout();
         JPanel pprincipale = new JPanel(b);
-        JPanel ecrancinde = new JPanel(new GridLayout(1,2));
-        JPanel menuglobal = new JPanel(new GridLayout(1,2));
+        JPanel ecrancinde = new JPanel(new GridLayout(1, 2));
+        JPanel menuglobal = new JPanel(new GridLayout(1, 2));
         JPanel menusud1 = new JPanel(new FlowLayout());
         JPanel menusud2 = new JPanel(new FlowLayout());
         menusud1.setFocusable(false);
@@ -136,8 +128,8 @@ public class Swing2048duo extends JFrame implements Observer {
         menuglobal.setFocusable(false);
         pprincipale.setFocusable(false);
         ecrancinde.setFocusable(false);
-        
-        // Ajout au  panel
+
+        // Ajout au panel
         ecrancinde.add(dessin1);
         ecrancinde.add(dessin2);
 
@@ -146,47 +138,49 @@ public class Swing2048duo extends JFrame implements Observer {
         menusud1.add(charger);
         menusud1.add(comboBox1);
         menusud1.add(checkBox1);
-        
+
         // menusud.add(checkBox);
-        menusud2.add(comboBox2);
+        menusud2.add(playerscore2);
         menusud2.add(sauvegarde2);
         menusud2.add(charger2);
-        menusud2.add(playerscore2);
+        menusud2.add(comboBox2);
         menusud2.add(checkBox2);
-        
-        pprincipale.add(ecrancinde,BorderLayout.CENTER);
-        pprincipale.add(menuglobal,BorderLayout.SOUTH);
-        
-        //ajout des deux sous menus dans le grand menu
+
+        pprincipale.add(ecrancinde, BorderLayout.CENTER);
+        pprincipale.add(menuglobal, BorderLayout.SOUTH);
+
+        // ajout des deux sous menus dans le grand menu
         menuglobal.add(menusud1);
         menuglobal.add(menusud2);
 
-        //Listenner des composants j1
-         comboboxlistenner1 = new ComboListenner(comboBox1,dessin1);
-         comboBox1.addActionListener(comboboxlistenner1);
-         checkboxlistenner1 = new JCheckboxListenner(checkBox1,jeu1,joueur1);
-         checkBox1.addActionListener(checkboxlistenner1);
-         savelistenener = new JSave(jeu1);
-         sauvegarde.addActionListener(savelistenener);
-         loadlistenner = new JLoad(jeu1);
-         charger.addActionListener(loadlistenner);
-         comboBox2.setSelectedIndex(1);
+        // Listenner des composants j1
+        comboboxlistenner1 = new ComboListenner(comboBox1, dessin1);
+        comboBox1.addActionListener(comboboxlistenner1);
+        checkboxlistenner1 = new JCheckboxListenner(checkBox1, jeu1, joueur1);
+        checkBox1.addActionListener(checkboxlistenner1);
+        savelistenener = new JSave(jeu1);
+        sauvegarde.addActionListener(savelistenener);
+        loadlistenner = new JLoad(jeu1);
+        charger.addActionListener(loadlistenner);
+        comboBox2.setSelectedIndex(1);
 
-       // listenner des composants j2
-       comboboxlistenner2 = new ComboListenner(comboBox2,dessin2);
-       comboBox2.addActionListener(comboboxlistenner2);
-       checkboxlistenner2 = new JCheckboxListenner(checkBox2,jeu2,joueur2);
-       checkBox2.addActionListener(checkboxlistenner2);
-       savelistenener2 = new JSave(jeu2);
-       sauvegarde2.addActionListener(savelistenener2);
-       loadlistenner2 = new JLoad(jeu2);
-       charger2.addActionListener(loadlistenner2);
-       comboBox2.setSelectedIndex(1);
+        // listenner des composants j2
+        comboboxlistenner2 = new ComboListenner(comboBox2, dessin2);
+        comboBox2.addActionListener(comboboxlistenner2);
+        checkboxlistenner2 = new JCheckboxListenner(checkBox2, jeu2, joueur2);
+        checkBox2.addActionListener(checkboxlistenner2);
+        savelistenener2 = new JSave(jeu2);
+        sauvegarde2.addActionListener(savelistenener2);
+        loadlistenner2 = new JLoad(jeu2);
+        charger2.addActionListener(loadlistenner2);
+        comboBox2.setSelectedIndex(1);
+
        
-       
-       // Frame de base
+        // Frame de base
         this.setContentPane(pprincipale);
         this.setVisible(true);
+
+        
         ajouterEcouteurClavier();
         rafraichir();
         
@@ -200,10 +194,10 @@ public class Swing2048duo extends JFrame implements Observer {
         SwingUtilities.invokeLater(new Runnable() { // demande au processus graphique de réaliser le traitement
             @Override
             public void run() {
-             dessin1.repaint();
-             dessin2.repaint();
-             playerscore1.setText(joueur1.getNom()+":"+joueur1.getScore());
-             playerscore2.setText(joueur2.getNom()+":"+joueur2.getScore());
+                dessin1.repaint();
+                dessin2.repaint();
+                playerscore1.setText(joueur1.getNom() + ":" + joueur1.getScore());
+                playerscore2.setText(joueur2.getNom() + ":" + joueur2.getScore());
             }
         });
 
@@ -248,7 +242,7 @@ public class Swing2048duo extends JFrame implements Observer {
                         try {
                             jeu1.setGrille((Grille2D) Serializer.load("GrilleSave.txt"));
                             System.out.println("La grille est chargée");
-                        }catch (ClassNotFoundException e1) {
+                        } catch (ClassNotFoundException e1) {
                             System.out.println("Erreur lors du chargement de la grille");
                             e1.printStackTrace();
                         } catch (IOException e1) {
@@ -263,15 +257,14 @@ public class Swing2048duo extends JFrame implements Observer {
         });
     }
 
-
     // pour obtenir dans nos listenner de composant l'état actuel du 2048
-    public void setCanva(Canva c){
+    public void setCanva(Canva c) {
         this.dessin1 = c;
         comboboxlistenner1.setJeu(c);
         comboboxlistenner2.setJeu(c);
     }
 
-    public void setJeu(Jeu_IA j){
+    public void setJeu(Jeu_IA j) {
         this.jeu1 = j;
         loadlistenner.setJeu(j);
         savelistenener.setJeu(j);
