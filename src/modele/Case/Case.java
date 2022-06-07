@@ -41,6 +41,7 @@ public abstract class Case implements Cloneable, Serializable {
                 Coord neighbor_coord = neighbor.getCoord();
                 
                 setValeur(2 * valeur);
+                //TODO Bug lors de non merge ajout quand même au score
                 joueur.setScore(valeur);
 
                 g.rmCase(neighbor_coord);
