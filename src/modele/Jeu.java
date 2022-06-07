@@ -38,7 +38,6 @@ public class Jeu extends Observable implements AutoCloseable, Observer {
             for (ThreadPoolExecutor t : l)
                 t.shutdown();
         }
-
     }
 
     public Jeu(int size,Joueur j) {
@@ -115,7 +114,6 @@ public class Jeu extends Observable implements AutoCloseable, Observer {
                 }
             s.release();
         });
-
     }
 
     public Grille2D getGrille() {

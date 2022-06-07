@@ -123,7 +123,7 @@ public class MC_IA implements Runnable {
                                                                              // effectuer
             node.applyAction(act); // On applique la modif
 
-            System.out.println("Etape n° " + step++ + " / " + act); // affiche l'action effectuée
+            System.out.println("Etape n° " + step++ + " / " + act.getAction().toString()); // affiche l'action effectuée
             System.out.println(node); // affiche la grille
         }
         stop();

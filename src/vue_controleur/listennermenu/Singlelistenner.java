@@ -23,7 +23,7 @@ public class Singlelistenner implements ActionListener {
         String s = (String)JOptionPane.showInputDialog(null, "Rentrer le nom de joueur","Joueur choix nom",JOptionPane.PLAIN_MESSAGE);
         System.out.println(s);
         Joueur joueur = new Joueur(0,s);
-        Jeu_IA jeu = new Jeu_IA(5,joueur);
+        Jeu_IA jeu = new Jeu_IA(4,joueur);
         Swing2048solo vue = new Swing2048solo(jeu,joueur);
         vue.setVisible(true);
         jeu.addObserver(vue);
