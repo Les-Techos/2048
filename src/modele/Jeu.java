@@ -141,7 +141,7 @@ public class Jeu extends Observable implements AutoCloseable, Observer {
     @Override
     public void update(Observable arg0, Object arg1) {
         // TODO Auto-generated method stub
-        System.out.println(arg1);
+        //System.out.println(arg1);
         setChanged();
         notifyObservers();
     }

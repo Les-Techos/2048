@@ -38,7 +38,7 @@ public class Canva extends JPanel {
        
         // fond a update
         g.setColor(Color.DARK_GRAY);
-        g.fillRect(0, 0, this.getWidth(), this.getWidth());
+        g.fillRect(0, 0, Integer.MAX_VALUE, Integer.MAX_VALUE);
         g.setFont(new Font("TimesRoman", Font.BOLD, 20));
         // taille du canva Setup des tailles cases et leur écarts
         // System.out.println(this.getName() + " taille " + this.getSize() );
@@ -62,7 +62,8 @@ public class Canva extends JPanel {
                 g.setColor(Color.WHITE);
                 }
                 g.setFont(new Font("SansSerif Bold", Font.BOLD, Math.min(xcase,ycase)/3));
-                g.drawString(valeurcase+"",ecart / 2 +xcase/2 + posX + (xcase + ecart) * i - 5,ecart / 2 +ycase/2 + posY + (ycase + ecart) * j +5); 
+                int decale_txt = g.getFontMetrics().stringWidth(valeurcase+" ");
+                g.drawString(valeurcase+"",ecart / 2 +xcase/2 + posX + (xcase + ecart) * i-decale_txt/2,ecart / 2 +ycase/2 + posY + (ycase + ecart) * j +5); 
                 // on pourrait utiliser la classe fontmetric pour bien centrer les numéro hors la police de base de drawstring fait des string de hauteur 5 et longeuers de 5 à l'infini
             }else{
                 g.setColor(Color.LIGHT_GRAY);

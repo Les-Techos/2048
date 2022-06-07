@@ -124,8 +124,11 @@ public class Swing2048solo extends JFrame implements Observer {
        // Frame de base
         this.setContentPane(pprincipale);
         this.setVisible(true);
+
+        
         ajouterEcouteurClavier();
         rafraichir();
+       
         
 
     }
@@ -136,8 +139,11 @@ public class Swing2048solo extends JFrame implements Observer {
     private void rafraichir() {
 
         SwingUtilities.invokeLater(new Runnable() { // demande au processus graphique de réaliser le traitement
+            
+
             @Override
             public void run() {
+             
              dessin.repaint();
              playerscore.setText(joueur.getNom()+":"+joueur.getScore());
             }
@@ -208,6 +214,15 @@ public class Swing2048solo extends JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        rafraichir();
+        
+        if(jeu.getGrille().iswrecked() && jeu.getGrille().isfull()){        
+            System.out.print("LOSER");
+            JOptionPane.showMessageDialog(null, "Tu as Perdu", "LOSE", JOptionPane.ERROR_MESSAGE);
+        }else if(jeu.getGrille().iswinning()){
+            JOptionPane.showMessageDialog(null, "Tu as gagner", "Win", JOptionPane.ERROR_MESSAGE);
+            System.out.print("Bien ouej");
+        }else{
+            rafraichir();
+        }
     }
 }
