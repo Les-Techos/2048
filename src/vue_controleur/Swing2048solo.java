@@ -6,6 +6,7 @@ import modele.Case.Case2D;
 import modele.Coord.Coord2D;
 import modele.Direction.Direction2D;
 import modele.Grille.Grille2D;
+import sauvegarde.Highscore;
 import util.Serializer;
 import util.IA.IAReady.Jeu_IA;
 import vue_controleur.vue_Listenner.ComboListenner;
@@ -41,6 +42,7 @@ public class Swing2048solo extends JFrame implements Observer {
     private JCheckBox checkBox;
     private JCheckboxListenner checkboxlistenner;
     private Joueur joueur;
+    private Highscore h;
     
     
 
@@ -50,6 +52,7 @@ public class Swing2048solo extends JFrame implements Observer {
     public Swing2048solo(Jeu_IA _jeu,Joueur j) {
         jeu = _jeu;
         joueur = j;
+        h = new Highscore();
         // obtention des dimensions de l'écran de l'utilisateur
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int height = (int) screenSize.getHeight()/2;
@@ -128,6 +131,7 @@ public class Swing2048solo extends JFrame implements Observer {
         
         ajouterEcouteurClavier();
         rafraichir();
+
        
         
 
@@ -217,10 +221,12 @@ public class Swing2048solo extends JFrame implements Observer {
         rafraichir();
         if(jeu.getGrille().iswrecked() && jeu.getGrille().isfull()){        
             System.out.print("LOSER");
-            JOptionPane.showMessageDialog(null, "Tu as Perdu", "LOSE", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, joueur.getNom()+" as Perdu", "LOSE", JOptionPane.ERROR_MESSAGE);
         }else if(jeu.getGrille().iswinning()){
-            JOptionPane.showMessageDialog(null, "Tu as gagner", "Win", JOptionPane.ERROR_MESSAGE);
-            System.out.print("Bien ouej");
+            JOptionPane.showMessageDialog(null, joueur.getNom()+" as gagner", "Win", JOptionPane.ERROR_MESSAGE);
+            h.add(joueur);
+            h.update();
+           
         }
     }
 }

@@ -1,5 +1,6 @@
 import modele.Jeu;
 import modele.Joueur;
+import sauvegarde.Highscore;
 import util.IA.IAReady.Jeu_IA;
 import vue_controleur.Console2048;
 import vue_controleur.Swing2048solo;
@@ -10,6 +11,8 @@ public class Main {
     public static void main(String[] args) {
         // mainConsole();
         mainSwing();
+     
+        
     }
 
     public static void mainConsole() {
