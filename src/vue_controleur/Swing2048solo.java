@@ -222,6 +222,5 @@ public class Swing2048solo extends JFrame implements Observer {
             JOptionPane.showMessageDialog(null, "Tu as gagner", "Win", JOptionPane.ERROR_MESSAGE);
             System.out.print("Bien ouej");
         }
-        System.out.println("Nb de points : " + joueur.getScore());
     }
 }

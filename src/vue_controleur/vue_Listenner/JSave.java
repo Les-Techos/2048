@@ -29,14 +29,14 @@ public class JSave implements ActionListener{
         fileChooser.setApproveButtonText("SAVE");
         
         File dossierbase = new File(".");
-        File dossiersave = new File(dossierbase.getPath(),"2048/src/sauvegarde");
+        File dossiersave = new File(dossierbase.getPath(),"src/sauvegarde");
         System.out.println(dossiersave.getPath());
         fileChooser.setCurrentDirectory(dossiersave);
         fileChooser.showOpenDialog(null);
         try {
             String fileName = fileChooser.getSelectedFile().getName()+".txt";
 
-            Serializer.save(jeu.getGrille(),dossiersave.toPath()+"\\"+fileName);
+            Serializer.save(jeu.getGrille(),dossiersave.toPath()+"/"+fileName);
             System.out.println("fichier sauver sous le nom " + fileName);
         } catch (IOException e1) {
             // TODO Auto-generated catch block

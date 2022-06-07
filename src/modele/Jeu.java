@@ -109,8 +109,6 @@ public class Jeu extends Observable implements AutoCloseable, Observer {
             }
                 if (!g.iswrecked()) {
                     g.move(d);
-                    setChanged();
-                    notifyObservers();
                 }
             s.release();
         });
