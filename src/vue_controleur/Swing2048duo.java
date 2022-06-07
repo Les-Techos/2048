@@ -47,8 +47,6 @@ public class Swing2048duo extends JFrame implements Observer {
     private JCheckboxListenner checkboxlistenner2;
     private Joueur joueur1;
     private Joueur joueur2;
-    
-    protected int playerPlaying = 1;
 
     String couleurs1[] ={"Classique","Menthe","Eté"};
     String couleurs2[] ={"Classique","Menthe","Eté"};
@@ -251,8 +249,6 @@ public class Swing2048duo extends JFrame implements Observer {
                         }
                         break;
                 }
-                playerPlaying = (playerPlaying + 1) % 2;
-                System.out.println("C'est au joueur " + playerPlaying + " de jouer");
             }
         });
     }

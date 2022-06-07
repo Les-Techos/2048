@@ -40,10 +40,12 @@ public abstract class Case implements Cloneable, Serializable {
             if (neighbor.getValeur() == valeur) { // Si ce voisin a la même valeur
                 Coord neighbor_coord = neighbor.getCoord();
                 
-                setValeur(2 * valeur);
+                
                 //TODO Bug lors de non merge ajout quand même au score
-                joueur.setScore(valeur);
+                if(joueur != null) 
+                    joueur.setScore(valeur);
 
+                setValeur(2 * valeur);
                 g.rmCase(neighbor_coord);
 
                 g.rmCase(coord);

@@ -124,7 +124,7 @@ public class MC_IA implements Runnable {
             IA_Action act = getBestAction(); // On récupère la meilleur action à
                                                                              // effectuer
             node.applyAction(act); // On applique la modif
-
+            
             System.out.println("Etape n° " + step++ + " / " + act.getAction().toString()); // affiche l'action effectuée
             System.out.println(node); // affiche la grille
         }

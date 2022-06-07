@@ -12,7 +12,7 @@ public class Case2D extends Case{
 
     @Override
     public Case2D clone(){
-        return new Case2D(valeur, ((Coord2D)coord).clone(), (Grille2D)g, joueur);
+        return new Case2D(valeur, ((Coord2D)coord).clone(), (Grille2D)g, null);
     }
 
     @Override

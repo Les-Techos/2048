@@ -41,7 +41,7 @@ public abstract class Grille extends Observable implements Cloneable, Serializab
 
         Grille clone = null;
         try {
-            clone = this.getClass().getDeclaredConstructor(int.class, Joueur.class).newInstance(size, joueur);
+            clone = this.getClass().getDeclaredConstructor(int.class, Joueur.class).newInstance(size, null);
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
