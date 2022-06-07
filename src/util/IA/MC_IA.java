@@ -6,6 +6,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
@@ -18,6 +19,7 @@ public class MC_IA implements Runnable {
     protected int nb_tasks_per_thread; // Nombre de tâches par thread
     protected IA_Node node;
     protected ThreadPoolExecutor tpe; // pool d'exécution
+    protected static Semaphore s = new Semaphore(1);
 
     /**
      * 
