@@ -18,7 +18,7 @@ public class Highscore {
 
     public Highscore() {
         this.players = new Joueur[10];
-        this.fichier_save = new File("2048/src/HIGHSCORE.TXT");
+        this.fichier_save = new File("src/HIGHSCORE.TXT");
 
         try {
             this.obj = new Scanner(fichier_save);
