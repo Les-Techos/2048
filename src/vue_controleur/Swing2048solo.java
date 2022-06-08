@@ -32,6 +32,7 @@ public class Swing2048solo extends JFrame implements Observer {
     private Jeu_IA jeu;
     private Canva dessin;
     private JLabel playerscore;
+    private JFrame menu;
     private JButton sauvegarde;
     private JButton multi;
     private JLoad loadlistenner;
@@ -48,7 +49,8 @@ public class Swing2048solo extends JFrame implements Observer {
 
     String couleurs[] = { "Classique", "Menthe", "Eté" };
 
-    public Swing2048solo(Jeu_IA _jeu, Joueur j) {
+    public Swing2048solo(Jeu_IA _jeu,Joueur j,JFrame menu) {
+        this.menu = menu;
         jeu = _jeu;
         joueur = j;
         h = new Highscore();
@@ -215,11 +217,14 @@ public class Swing2048solo extends JFrame implements Observer {
         if (jeu.getGrille().iswrecked()) {
             System.out.print("LOSER");
             JOptionPane.showMessageDialog(null, joueur.getNom()+" as Perdu", "LOSE", JOptionPane.ERROR_MESSAGE);
+            this.menu.setVisible(true);
+            this.dispose();
         }else if(jeu.getGrille().iswinning()){
             JOptionPane.showMessageDialog(null, joueur.getNom()+" as gagner", "Win", JOptionPane.ERROR_MESSAGE);
             h.add(joueur);
             h.update();
-           
+            this.menu.setVisible(true);
+            this.dispose();
         }
     }
 }

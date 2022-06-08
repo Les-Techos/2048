@@ -36,6 +36,7 @@ public class Swing2048duo extends JFrame implements Observer {
     private JLabel playerscore1;
     private JLabel playerscore2;
     private JButton sauvegarde;
+    private JFrame menu;
     private JButton multi;
     private JLoad loadlistenner;
     private JSave savelistenener;
@@ -60,7 +61,8 @@ public class Swing2048duo extends JFrame implements Observer {
     private JButton charger2;
     private Highscore h;
 
-    public Swing2048duo(Jeu_IA _jeu1, Jeu_IA _jeu2, Joueur j1, Joueur j2) {
+    public Swing2048duo(Jeu_IA _jeu1, Jeu_IA _jeu2, Joueur j1, Joueur j2,JFrame menu) {
+        this.menu = menu; 
         jeu1 = _jeu1;
         jeu2 = _jeu2;
         joueur1 = j1;
@@ -263,17 +265,25 @@ public class Swing2048duo extends JFrame implements Observer {
         rafraichir();
         if(jeu1.getGrille().iswrecked() && jeu1.getGrille().isfull()){        
             JOptionPane.showMessageDialog(null, joueur1.getNom() +"Tu as Perdu", "LOSE", JOptionPane.ERROR_MESSAGE);
+            this.menu.setVisible(true);
+            this.dispose();
         }else if(jeu1.getGrille().iswinning()){
             JOptionPane.showMessageDialog(null, joueur1.getNom()+"Tu as gagner", "Win", JOptionPane.ERROR_MESSAGE);
             h.add(joueur1);
             h.update();
+            this.menu.setVisible(true);
+            this.dispose();
         }
         else if(jeu2.getGrille().iswrecked() && jeu2.getGrille().isfull()){        
             JOptionPane.showMessageDialog(null, joueur2.getNom() +"as perdu", "LOSE", JOptionPane.ERROR_MESSAGE);
+            this.menu.setVisible(true);
+            this.dispose();
         }else if(jeu2.getGrille().iswinning()){
             JOptionPane.showMessageDialog(null, joueur2.getNom() +" as gagner", "Win", JOptionPane.ERROR_MESSAGE);
             h.add(joueur2);
             h.update();
+            this.menu.setVisible(true);
+            this.dispose();
         }
     }
     
