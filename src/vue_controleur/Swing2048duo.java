@@ -6,7 +6,6 @@ import modele.Case.Case2D;
 import modele.Coord.Coord2D;
 import modele.Direction.Direction2D;
 import modele.Grille.Grille2D;
-import sauvegarde.Highscore;
 import util.Serializer;
 import util.IA.MC_IA;
 import util.IA.IAReady.Grille2D_IA;
@@ -36,7 +35,6 @@ public class Swing2048duo extends JFrame implements Observer {
     private JLabel playerscore1;
     private JLabel playerscore2;
     private JButton sauvegarde;
-    private JFrame menu;
     private JButton multi;
     private JLoad loadlistenner;
     private JSave savelistenener;
@@ -59,15 +57,12 @@ public class Swing2048duo extends JFrame implements Observer {
     private JButton sauvegarde2;
     private JLoad loadlistenner2;
     private JButton charger2;
-    private Highscore h;
 
-    public Swing2048duo(Jeu_IA _jeu1, Jeu_IA _jeu2, Joueur j1, Joueur j2,JFrame menu) {
-        this.menu = menu; 
+    public Swing2048duo(Jeu_IA _jeu1, Jeu_IA _jeu2, Joueur j1, Joueur j2) {
         jeu1 = _jeu1;
         jeu2 = _jeu2;
         joueur1 = j1;
         joueur2 = j2;
-        h = new Highscore();
         // obtention des dimensions de l'écran de l'utilisateur
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int height = (int) screenSize.getHeight() / 2;
@@ -263,28 +258,5 @@ public class Swing2048duo extends JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         rafraichir();
-        if(jeu1.getGrille().iswrecked() && jeu1.getGrille().isfull()){        
-            JOptionPane.showMessageDialog(null, joueur1.getNom() +"Tu as Perdu", "LOSE", JOptionPane.ERROR_MESSAGE);
-            this.menu.setVisible(true);
-            this.dispose();
-        }else if(jeu1.getGrille().iswinning()){
-            JOptionPane.showMessageDialog(null, joueur1.getNom()+"Tu as gagner", "Win", JOptionPane.ERROR_MESSAGE);
-            h.add(joueur1);
-            h.update();
-            this.menu.setVisible(true);
-            this.dispose();
-        }
-        else if(jeu2.getGrille().iswrecked() && jeu2.getGrille().isfull()){        
-            JOptionPane.showMessageDialog(null, joueur2.getNom() +"as perdu", "LOSE", JOptionPane.ERROR_MESSAGE);
-            this.menu.setVisible(true);
-            this.dispose();
-        }else if(jeu2.getGrille().iswinning()){
-            JOptionPane.showMessageDialog(null, joueur2.getNom() +" as gagner", "Win", JOptionPane.ERROR_MESSAGE);
-            h.add(joueur2);
-            h.update();
-            this.menu.setVisible(true);
-            this.dispose();
-        }
     }
-    
 }

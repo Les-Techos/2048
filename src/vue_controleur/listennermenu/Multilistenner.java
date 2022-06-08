@@ -35,7 +35,7 @@ public class Multilistenner implements ActionListener {
                         Jeu_IA jeu1 = new Jeu_IA(5, joueur1);
                         Joueur joueur2 = new Joueur(0, s2);
                         Jeu_IA jeu2 = new Jeu_IA(5, joueur2);
-                        Swing2048duo vue = new Swing2048duo(jeu1, jeu2, joueur1, joueur2,frame);
+                        Swing2048duo vue = new Swing2048duo(jeu1, jeu2, joueur1, joueur2);
                         vue.setVisible(true);
                         jeu1.addObserver(vue);
                         jeu2.addObserver(vue);
