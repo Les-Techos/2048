@@ -13,23 +13,30 @@ import vue_controleur.Swing2048solo;
 public class Singlelistenner implements ActionListener {
 
     private JFrame frame;
-    public Singlelistenner(JFrame frame){
+
+    public Singlelistenner(JFrame frame) {
         this.frame = frame;
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent e) {
         // TODO Auto-generated method stub
-        String s1 = (String)JOptionPane.showInputDialog(null, "Rentrer le nom de joueur","Joueur choix nom",JOptionPane.PLAIN_MESSAGE);
-    if (s1!=null || s1!="") {
-        Joueur joueur = new Joueur(0,s1);
-        Jeu_IA jeu = new Jeu_IA(4,joueur);
-        Swing2048solo vue = new Swing2048solo(jeu,joueur);
-        vue.setVisible(true);
-        jeu.addObserver(vue);
         frame.setVisible(false);
-    }else{
-        frame.setVisible(true);
-    }}
+        String s1 = JOptionPane.showInputDialog(null, "Rentrer le nom de joueur");
 
-}
+        if(s1 != null){
+            if(!s1.isEmpty()){
+                Joueur joueur = new Joueur(0, s1);
+                Jeu_IA jeu = new Jeu_IA(4, joueur);
+                Swing2048solo vue = new Swing2048solo(jeu, joueur);
+                vue.setVisible(true);
+                jeu.addObserver(vue);
+                
+        } else {
+            frame.setVisible(true);
+        }}
+    else{
+        frame.setVisible(true);
+    }
+
+}}
