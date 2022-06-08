@@ -9,6 +9,8 @@ import java.util.concurrent.Future;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadPoolExecutor;
 
+import modele.Grille.Grille2D;
+
 /**
  * IA Montécarlo, reprenant le célèbre algorithme de résolution
  */

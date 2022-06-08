@@ -7,6 +7,8 @@ import modele.Coord.Coord2D;
 import modele.Direction.Direction2D;
 import modele.Grille.Grille2D;
 import util.Serializer;
+import util.IA.MC_IA;
+import util.IA.IAReady.Grille2D_IA;
 import util.IA.IAReady.Jeu_IA;
 import vue_controleur.vue_Listenner.ComboListenner;
 import vue_controleur.vue_Listenner.JCheckboxListenner;
@@ -47,9 +49,10 @@ public class Swing2048duo extends JFrame implements Observer {
     private JCheckboxListenner checkboxlistenner2;
     private Joueur joueur1;
     private Joueur joueur2;
+    protected int turnTo = 0;
 
-    String couleurs1[] ={"Classique","Menthe","Eté"};
-    String couleurs2[] ={"Classique","Menthe","Eté"};
+    String couleurs1[] = { "Classique", "Menthe", "Eté" };
+    String couleurs2[] = { "Classique", "Menthe", "Eté" };
     private JSave savelistenener2;
     private JButton sauvegarde2;
     private JLoad loadlistenner2;
@@ -135,14 +138,14 @@ public class Swing2048duo extends JFrame implements Observer {
         menusud1.add(sauvegarde);
         menusud1.add(charger);
         menusud1.add(comboBox1);
-        menusud1.add(checkBox1);
+        //menusud1.add(checkBox1);
 
         // menusud.add(checkBox);
         menusud2.add(playerscore2);
         menusud2.add(sauvegarde2);
         menusud2.add(charger2);
         menusud2.add(comboBox2);
-        menusud2.add(checkBox2);
+        //menusud2.add(checkBox2);
 
         pprincipale.add(ecrancinde, BorderLayout.CENTER);
         pprincipale.add(menuglobal, BorderLayout.SOUTH);
@@ -173,15 +176,13 @@ public class Swing2048duo extends JFrame implements Observer {
         charger2.addActionListener(loadlistenner2);
         comboBox2.setSelectedIndex(1);
 
-       
         // Frame de base
         this.setContentPane(pprincipale);
         this.setVisible(true);
 
-        
         ajouterEcouteurClavier();
         rafraichir();
-        
+
     }
 
     /**
@@ -227,28 +228,16 @@ public class Swing2048duo extends JFrame implements Observer {
                         jeu1.move(Direction2D.haut);
                         jeu2.move(Direction2D.haut);
                         break;
-                    case KeyEvent.VK_S:
-                        try {
-                            Serializer.save(jeu1.getGrille(), "GrilleSave.txt");
-                            System.out.println("La grille est sauvegardée");
-                        } catch (IOException e1) {
-                            System.out.println("Erreur lors de la sauvegarde de la grille");
-                            e1.printStackTrace();
-                        }
-                        break;
-                    case KeyEvent.VK_L:
-                        try {
-                            jeu1.setGrille((Grille2D) Serializer.load("GrilleSave.txt"));
-                            System.out.println("La grille est chargée");
-                        } catch (ClassNotFoundException e1) {
-                            System.out.println("Erreur lors du chargement de la grille");
-                            e1.printStackTrace();
-                        } catch (IOException e1) {
-                            System.out.println("Erreur lors de l'ouverture du fichier");
-                            e1.printStackTrace();
-                        }
+                    case KeyEvent.VK_H:
+                        MC_IA ia_help;
+                        if(turnTo == 0) ia_help = new MC_IA(50,6,(Grille2D_IA) jeu1.getGrille());
+                        else ia_help = new MC_IA(50,6, (Grille2D_IA)jeu2.getGrille());
+                        Direction2D best_dir = (Direction2D) ia_help.getBestAction().getAction();
+                        jeu1.move(best_dir);
+                        jeu2.move(best_dir);
                         break;
                 }
+                turnTo = (turnTo + 1) % 2;
             }
         });
     }
