@@ -28,7 +28,7 @@ public class Singlelistenner implements ActionListener {
             if(!s1.isEmpty()){
                 Joueur joueur = new Joueur(0, s1);
                 Jeu_IA jeu = new Jeu_IA(4, joueur);
-                Swing2048solo vue = new Swing2048solo(jeu, joueur);
+                Swing2048solo vue = new Swing2048solo(jeu, joueur,frame);
                 vue.setVisible(true);
                 jeu.addObserver(vue);
                 
