@@ -6,6 +6,7 @@ import modele.Case.Case2D;
 import modele.Coord.Coord2D;
 import modele.Direction.Direction2D;
 import modele.Grille.Grille2D;
+import sauvegarde.Highscore;
 import util.Serializer;
 import util.IA.MC_IA;
 import util.IA.IAReady.Grille2D_IA;
@@ -57,8 +58,12 @@ public class Swing2048duo extends JFrame implements Observer {
     private JButton sauvegarde2;
     private JLoad loadlistenner2;
     private JButton charger2;
+    private JFrame frame;
+    private Highscore h;
 
-    public Swing2048duo(Jeu_IA _jeu1, Jeu_IA _jeu2, Joueur j1, Joueur j2) {
+    public Swing2048duo(Jeu_IA _jeu1, Jeu_IA _jeu2, Joueur j1, Joueur j2,JFrame parent) {
+        this.frame = parent;
+        h = new Highscore();
         jeu1 = _jeu1;
         jeu2 = _jeu2;
         joueur1 = j1;
@@ -258,5 +263,17 @@ public class Swing2048duo extends JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         rafraichir();
+        if (jeu1.getGrille().iswrecked()) {
+            System.out.print("LOSER");
+            JOptionPane.showMessageDialog(null, joueur1.getNom()+" as Perdu", "LOSE", JOptionPane.ERROR_MESSAGE);
+            this.frame.setVisible(true);
+            this.dispose();
+        }else if(jeu1.getGrille().iswinning()){
+            JOptionPane.showMessageDialog(null, joueur1.getNom()+" as gagner", "Win", JOptionPane.INFORMATION_MESSAGE);
+            h.add(joueur2);
+            h.update();
+            this.frame.setVisible(true);
+            this.dispose();
+        }
     }
 }

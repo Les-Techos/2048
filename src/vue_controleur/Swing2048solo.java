@@ -220,7 +220,7 @@ public class Swing2048solo extends JFrame implements Observer {
             this.menu.setVisible(true);
             this.dispose();
         }else if(jeu.getGrille().iswinning()){
-            JOptionPane.showMessageDialog(null, joueur.getNom()+" as gagner", "Win", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, joueur.getNom()+" as gagner", "Win", JOptionPane.INFORMATION_MESSAGE);
             h.add(joueur);
             h.update();
             this.menu.setVisible(true);
